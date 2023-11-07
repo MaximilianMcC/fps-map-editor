@@ -3,11 +3,13 @@ using Raylib_cs;
 class ShortcutManager
 {
 	private static Dictionary<KeyboardKey[], Action> shortcuts = new Dictionary<KeyboardKey[], Action>();
+	private static Dictionary<KeyboardKey[], bool> shortcutTriggered = new Dictionary<KeyboardKey[], bool>();
 
 	// Add a new shortcut
 	public static void AddShortcut(Action method, params KeyboardKey[] shortcutKeys)
 	{
 		shortcuts.Add(shortcutKeys, method);
+		shortcutTriggered.Add(shortcutKeys, false);
 	}
 
 	// Handle all shortcuts
@@ -24,7 +26,23 @@ class ShortcutManager
 
 			// Check for if all of the keys necessary were pressed, then
 			// run the attached method
-			if (pressedKeys == shortcut.Key.Length) shortcut.Value.Invoke();
+			if (pressedKeys == shortcut.Key.Length)
+			{
+				// Only trigger the action if it hasn't been triggered yet
+				if (!shortcutTriggered[shortcut.Key])
+				{
+					shortcut.Value.Invoke();
+					shortcutTriggered[shortcut.Key] = true;
+				}
+			}
+			else
+			{
+				// Reset the flag when the keys are released
+				shortcutTriggered[shortcut.Key] = false;
+			}
 		}
 	}
+
+
+
 }
