@@ -2,6 +2,8 @@ using Raylib_cs;
 
 class Editor
 {
+	private List<Window> windows = new List<Window>();
+
 	public void Run()
 	{
 		// Setup the Raylib window
@@ -31,15 +33,23 @@ class Editor
 
 	private void Update()
 	{
+		// Update all of the shortcuts
 		ShortcutManager.Listen();
+
+		// Update all the windows
+		for (int i = 0; i < windows.Count; i++) windows[i].Update();
+
 	}
 
 	private void Render()
 	{
 		Raylib.BeginDrawing();
+		Raylib.ClearBackground(Color.MAGENTA);
 
 
-		Raylib.DrawText("editing the map rn", 0, 0, 50, Color.BLUE);
+		// Draw all the windows
+		for (int i = 0; i < windows.Count; i++) windows[i].Render();
+
 
 
 		Raylib.EndDrawing();
@@ -57,6 +67,10 @@ class Editor
 	// Create a new map
 	private void CreateNewMap()
 	{
-		Console.WriteLine("Making new map rn");
+		Console.WriteLine("Creating a new map");
+
+		// Make a new window
+		Window window = new Window("New map", 500, 800, true);
+		windows.Add(window);
 	}
 }
