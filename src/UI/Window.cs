@@ -19,6 +19,8 @@ class Window
 
 	private const int padding = 20;
 
+	private List<UIElement> elements = new List<UIElement>();
+
 	public Window(string title, int width, int height, bool moveable)
 	{
 		// Assign values
@@ -30,6 +32,35 @@ class Window
 
 	// Update the window functions
 	public void Update()
+	{
+		MoveAroundWindow();
+
+		// Update all of the elements on the window
+		for (int i = 0; i < elements.Count; i++)
+		{
+			elements[i].Update();
+		}
+	}
+
+	// Render the base window
+	public void Render()
+	{
+		// Draw the background and title
+		Raylib.DrawRectangle(X, Y, Width, Height, new Color(13, 25, 38, 255));
+		Raylib.DrawRectangle(X, Y, Width, TitleHeight, new Color(54, 54, 54, 255));
+		Raylib.DrawText(Title, X + padding, Y + (padding / 2), 35, Color.LIGHTGRAY);
+
+		
+		// Draw all of the elements on the window
+		for (int i = 0; i < elements.Count; i++)
+		{
+			elements[i].Render();
+		}
+	}
+
+
+
+	private void MoveAroundWindow()
 	{
 		// Check for if the window is allowed to be dragged
 		if (!canBeMoved) return;
@@ -55,15 +86,13 @@ class Window
 
 		}
 		else beingDragged = false;
-
 	}
 
-	// Render the base window
-	public void Render()
+
+
+
+	public void AddElement(UIElement element)
 	{
-		// Draw the background and title
-		Raylib.DrawRectangle(X, Y, Width, Height, new Color(13, 25, 38, 255));
-		Raylib.DrawRectangle(X, Y, Width, TitleHeight, new Color(54, 54, 54, 255));
-		Raylib.DrawText(Title, X + padding, Y + (padding / 2), 35, Color.LIGHTGRAY);
+		elements.Add(element);
 	}
 }

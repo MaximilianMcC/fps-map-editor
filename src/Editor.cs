@@ -1,3 +1,4 @@
+using System.Net;
 using Raylib_cs;
 
 class Editor
@@ -7,7 +8,7 @@ class Editor
 	public void Run()
 	{
 		// Setup the Raylib window
-		Raylib.InitWindow(1920, 1080, "m");
+		Raylib.InitWindow(1280, 720, "m");
 		Raylib.SetWindowState(ConfigFlags.FLAG_WINDOW_RESIZABLE);
 		Raylib.SetTargetFPS(60);
 		Raylib.SetExitKey(KeyboardKey.KEY_NULL);
@@ -70,7 +71,12 @@ class Editor
 		Console.WriteLine("Creating a new map");
 
 		// Make a new window
-		Window window = new Window("New map", 500, 800, true);
+		Window window = new Window("New map", 500, 600, true);
 		windows.Add(window);
+
+		// Add text input for getting the map name
+		TextInput textInput = new TextInput("Map Name:");
+		window.AddElement(textInput);
+		string text = textInput.Text;
 	}
 }
