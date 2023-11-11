@@ -5,6 +5,14 @@ class UIElement
 	public int Width { get; set; }
 	public int Height { get; set; }
 
-	public virtual void Update() { return; }
-	public virtual void Render(int x, int y, int width) { return; }
+	public virtual void Update(int anchorX, int anchorY, int parentWidth)
+	{
+		// Apply the X, Y, and width values
+		X = anchorX;
+		Y = anchorY;
+		Width = parentWidth;
+	}
+
+
+	public virtual void Render() { return; }
 }

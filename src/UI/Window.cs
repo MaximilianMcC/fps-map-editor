@@ -40,9 +40,13 @@ class Window
 		MoveAroundWindow();
 
 		// Update all of the elements on the window
+		int x = X + padding;
+		int y = BodyY + padding;
+		int width = Width - padding;
 		for (int i = 0; i < elements.Count; i++)
 		{
-			elements[i].Update();
+			elements[i].Update(x, y, width);
+			y += elements[i].Height + padding;
 		}
 	}
 
@@ -53,20 +57,9 @@ class Window
 		Raylib.DrawRectangle(X, Y, Width, Height, new Color(13, 25, 38, 255));
 		Raylib.DrawRectangle(X, Y, Width, TitleHeight, new Color(54, 54, 54, 255));
 		Raylib.DrawText(Title, X + padding, Y + (padding / 2), 35, Color.LIGHTGRAY);
-
-		int x, y, width;
 		
 		// Draw all of the elements on the window
-		x = X + padding;
-		y = BodyY + padding;
-		width = Width - padding; 
-		for (int i = 0; i < elements.Count; i++)
-		{
-			// Draw the current element, and increase the Y for drawing the
-			// next element in a stack
-			elements[i].Render(x, y, width);
-			y += elements[i].Height;
-		}
+		for (int i = 0; i < elements.Count; i++) elements[i].Render();
 	}
 
 

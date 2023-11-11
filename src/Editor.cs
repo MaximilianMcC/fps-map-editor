@@ -77,6 +77,5 @@ class Editor
 		// Add text input for getting the map name
 		TextInput textInput = new TextInput("Map Name:");
 		window.AddElement(textInput);
-		string text = textInput.Text;
 	}
 }

@@ -1,5 +1,11 @@
 using Raylib_cs;
 
+// TODO: Need to click into box to select/type
+// TODO: Add I beam mouse cursor
+// TODO: Add highlighting
+// TODO: Add moving with ctrl
+// TODO: Add copy/paste functionality 
+
 class TextInput : UIElement
 {
 	public string Title { get; set; }
@@ -26,20 +32,23 @@ class TextInput : UIElement
 		Text = "";
 	}
 
-	public override void Update()
+	public override void Update(int anchorX, int anchorY, int parentWidth)
 	{
+		// Update X, Y, and Width
+		base.Update(anchorX, anchorY, parentWidth);
+
 		UpdateInput();
 		UpdateCaretBlinking();
 	}
 
-	public override void Render(int anchorX, int anchorY, int parentWidth)
+	public override void Render()
 	{
 		int x, y;
-		int width = parentWidth - padding2;
+		int width = Width - padding2;
 
 		// Draw the title/header
-		x = anchorX;
-		y = anchorY;
+		x = X;
+		y = Y;
 		Raylib.DrawText(Title, x, y, fontSize, Color.WHITE);
 
 		// Draw the text box
@@ -58,6 +67,9 @@ class TextInput : UIElement
 			Rectangle caret = new Rectangle(x + caretX, y, 3, fontSize);
 			Raylib.DrawRectangleRec(caret, Color.GRAY);
 		}
+
+		// Update the height
+		Height = (y + fontSize) - Y;
 	}
 
 	// Actually type and stuff
