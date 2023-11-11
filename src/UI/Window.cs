@@ -18,13 +18,17 @@ class Window
 	private Vector2 dragOffset = Vector2.Zero;
 
 	private const int padding = 20;
+	private const int padding2 = padding * 2;
 
 	private List<UIElement> elements = new List<UIElement>();
 
-	public Window(string title, int width, int height, bool moveable)
+	public Window(string title, int x, int y, int width, int height, bool moveable)
 	{
 		// Assign values
 		Title = title;
+		X = x;
+		Y = y;
+		BodyY = Y + TitleHeight;
 		Width = width;
 		Height = height;
 		canBeMoved = moveable;
@@ -50,11 +54,18 @@ class Window
 		Raylib.DrawRectangle(X, Y, Width, TitleHeight, new Color(54, 54, 54, 255));
 		Raylib.DrawText(Title, X + padding, Y + (padding / 2), 35, Color.LIGHTGRAY);
 
+		int x, y, width;
 		
 		// Draw all of the elements on the window
+		x = X + padding;
+		y = BodyY + padding;
+		width = Width - padding; 
 		for (int i = 0; i < elements.Count; i++)
 		{
-			elements[i].Render(0, 0);
+			// Draw the current element, and increase the Y for drawing the
+			// next element in a stack
+			elements[i].Render(x, y, width);
+			y += elements[i].Height;
 		}
 	}
 

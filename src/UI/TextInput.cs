@@ -15,6 +15,10 @@ class TextInput : UIElement
 	private bool caretShown = true;
 	private double lastTimeCaretBlinked = Raylib.GetTime();
 
+	// Positional spacing stuff
+	private const int padding = 10;
+	private const int padding2 = padding * 2;
+
 	public TextInput(string title)
 	{
 		// Assign values
@@ -24,12 +28,47 @@ class TextInput : UIElement
 
 	public override void Update()
 	{
+		UpdateInput();
+		UpdateCaretBlinking();
+	}
+
+	public override void Render(int anchorX, int anchorY, int parentWidth)
+	{
+		int x, y;
+		int width = parentWidth - padding2;
+
+		// Draw the title/header
+		x = anchorX;
+		y = anchorY;
+		Raylib.DrawText(Title, x, y, fontSize, Color.WHITE);
+
+		// Draw the text box
+		y += fontSize + padding;
+		Raylib.DrawRectangle(x, y, width, fontSize + padding2, Color.DARKGRAY);
+		Raylib.DrawRectangleLines(x, y, width, fontSize + padding2, Color.GRAY);
+
+		// Draw the text
+		y += padding;
+		Raylib.DrawText(Text, x + padding, y, fontSize, Color.BLACK);
+
+		// Draw the blinking caret
+		if (caretShown)
+		{
+			x += padding;
+			Rectangle caret = new Rectangle(x + caretX, y, 3, fontSize);
+			Raylib.DrawRectangleRec(caret, Color.GRAY);
+		}
+	}
+
+	// Actually type and stuff
+	private void UpdateInput()
+	{
 		// Check for what they are doing
 		if (Raylib.IsKeyPressed(KeyboardKey.KEY_BACKSPACE))
 		{
 			// Remove a character before caret
-			if (caretIndex < 0) return;
-			Text = Text.Remove(caretIndex - 1, 1);
+			if (caretIndex <= 0) return;
+				Text = Text.Remove(caretIndex - 1, 1);
 			caretIndex--;
 		}
 		else if (Raylib.IsKeyPressed(KeyboardKey.KEY_DELETE))
@@ -77,12 +116,9 @@ class TextInput : UIElement
 		if (caretX < 0) caretX = 0;
 	}
 
-	public override void Render(int x, int y)
+	// Make the caret blink
+	private void UpdateCaretBlinking()
 	{
-		// Draw the text
-		// TODO: Place relative to the window
-		Raylib.DrawText(Text, 0, 0, fontSize, Color.BLACK);
-
 		// Check for if we are allowed to draw the blinking caret
 		double currentTime = Raylib.GetTime();
 		double elapsedTime = currentTime - lastTimeCaretBlinked;
@@ -91,13 +127,5 @@ class TextInput : UIElement
 			caretShown = !caretShown;
 			lastTimeCaretBlinked = currentTime;
 		}
-
-		// Draw the blinking caret
-		if (caretShown)
-		{
-			Rectangle caret = new Rectangle(caretX, 0, 3, fontSize);
-			Raylib.DrawRectangleRec(caret, Color.BEIGE);
-		}
-
 	}
 }

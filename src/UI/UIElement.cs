@@ -6,5 +6,5 @@ class UIElement
 	public int Height { get; set; }
 
 	public virtual void Update() { return; }
-	public virtual void Render(int x, int y) { return; }
+	public virtual void Render(int x, int y, int width) { return; }
 }

@@ -71,7 +71,7 @@ class Editor
 		Console.WriteLine("Creating a new map");
 
 		// Make a new window
-		Window window = new Window("New map", 500, 600, true);
+		Window window = new Window("New map", 10, 10, 500, 600, true);
 		windows.Add(window);
 
 		// Add text input for getting the map name
