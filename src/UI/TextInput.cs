@@ -12,7 +12,6 @@ class TextInput : UIElement
 	public string Text { get; set; }
 
 	// Typing stuff
-	private int fontSize = 30;
 	private int caretIndex = 0;
 	private float caretX = 0;
 
@@ -44,32 +43,31 @@ class TextInput : UIElement
 	public override void Render()
 	{
 		int x, y;
-		int width = Width - padding2;
 
 		// Draw the title/header
 		x = X;
 		y = Y;
-		Raylib.DrawText(Title, x, y, fontSize, Color.WHITE);
+		Raylib.DrawText(Title, x, y, FontSize, Color.WHITE);
 
 		// Draw the text box
-		y += fontSize + padding;
-		Raylib.DrawRectangle(x, y, width, fontSize + padding2, Color.DARKGRAY);
-		Raylib.DrawRectangleLines(x, y, width, fontSize + padding2, Color.GRAY);
+		y += FontSize + padding;
+		Raylib.DrawRectangle(x, y, Width, FontSize + padding2, Color.DARKGRAY);
+		Raylib.DrawRectangleLines(x, y, Width, FontSize + padding2, Color.GRAY);
 
 		// Draw the text
 		y += padding;
-		Raylib.DrawText(Text, x + padding, y, fontSize, Color.BLACK);
+		Raylib.DrawText(Text, x + padding, y, FontSize, Color.BLACK);
 
 		// Draw the blinking caret
 		if (caretShown)
 		{
 			x += padding;
-			Rectangle caret = new Rectangle(x + caretX, y, 3, fontSize);
+			Rectangle caret = new Rectangle(x + caretX, y, 3, FontSize);
 			Raylib.DrawRectangleRec(caret, Color.GRAY);
 		}
 
 		// Update the height
-		Height = (y + fontSize) - Y;
+		Height = (y + FontSize) - Y;
 	}
 
 	// Actually type and stuff
@@ -124,7 +122,7 @@ class TextInput : UIElement
 		}
 
 		// Update the caret position
-		caretX = Raylib.MeasureTextEx(Raylib.GetFontDefault(), Text.Substring(0, caretIndex), fontSize, (fontSize / 10)).X;
+		caretX = Raylib.MeasureTextEx(Raylib.GetFontDefault(), Text.Substring(0, caretIndex), FontSize, (FontSize / 10)).X;
 		if (caretX < 0) caretX = 0;
 	}
 

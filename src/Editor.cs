@@ -77,5 +77,14 @@ class Editor
 		// Add text input for getting the map name
 		TextInput textInput = new TextInput("Map Name:");
 		window.AddElement(textInput);
+
+		// Add create button for actually making the map
+		Button button = new Button("Create", Test);
+		window.AddElement(button);
+	}
+
+	private void Test()
+	{
+		Console.WriteLine("Clicked");
 	}
 }

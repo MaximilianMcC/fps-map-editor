@@ -5,6 +5,8 @@ class UIElement
 	public int Width { get; set; }
 	public int Height { get; set; }
 
+	public int FontSize = 30;
+
 	public virtual void Update(int anchorX, int anchorY, int parentWidth)
 	{
 		// Apply the X, Y, and width values

@@ -42,7 +42,7 @@ class Window
 		// Update all of the elements on the window
 		int x = X + padding;
 		int y = BodyY + padding;
-		int width = Width - padding;
+		int width = Width - padding2;
 		for (int i = 0; i < elements.Count; i++)
 		{
 			elements[i].Update(x, y, width);
