@@ -10,6 +10,11 @@ class TextInput : UIElement
 	private int caretIndex = 0;
 	private float caretX = 0;
 
+	// Blinking caret stuff
+	private const double caretBlinkTimeSeconds = 0.53;
+	private bool caretShown = true;
+	private double lastTimeCaretBlinked = Raylib.GetTime();
+
 	public TextInput(string title)
 	{
 		// Assign values
@@ -19,11 +24,11 @@ class TextInput : UIElement
 
 	public override void Update()
 	{
-		// Check for if the key is something special
+		// Check for what they are doing
 		if (Raylib.IsKeyPressed(KeyboardKey.KEY_BACKSPACE))
 		{
 			// Remove a character before caret
-			if (caretIndex <= 0) return;
+			if (caretIndex < 0) return;
 			Text = Text.Remove(caretIndex - 1, 1);
 			caretIndex--;
 		}
@@ -60,7 +65,7 @@ class TextInput : UIElement
 			// Get keyboard input for normal keys
 			int inputKeycode = Raylib.GetCharPressed();
 			if (inputKeycode == 0) return;
-
+			
 			// Add the new character to the text
 			string input = char.ConvertFromUtf32(inputKeycode);
 			Text = Text.Insert(caretIndex, input);
@@ -72,14 +77,27 @@ class TextInput : UIElement
 		if (caretX < 0) caretX = 0;
 	}
 
-	public override void Render()
+	public override void Render(int x, int y)
 	{
 		// Draw the text
 		// TODO: Place relative to the window
 		Raylib.DrawText(Text, 0, 0, fontSize, Color.BLACK);
 
-		// Draw the caret
-		Rectangle caret = new Rectangle(caretX, 0, 3, fontSize);
-		Raylib.DrawRectangleRec(caret, Color.BEIGE);
+		// Check for if we are allowed to draw the blinking caret
+		double currentTime = Raylib.GetTime();
+		double elapsedTime = currentTime - lastTimeCaretBlinked;
+		if (elapsedTime > caretBlinkTimeSeconds)
+		{
+			caretShown = !caretShown;
+			lastTimeCaretBlinked = currentTime;
+		}
+
+		// Draw the blinking caret
+		if (caretShown)
+		{
+			Rectangle caret = new Rectangle(caretX, 0, 3, fontSize);
+			Raylib.DrawRectangleRec(caret, Color.BEIGE);
+		}
+
 	}
 }

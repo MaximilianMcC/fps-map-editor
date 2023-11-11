@@ -54,7 +54,7 @@ class Window
 		// Draw all of the elements on the window
 		for (int i = 0; i < elements.Count; i++)
 		{
-			elements[i].Render();
+			elements[i].Render(0, 0);
 		}
 	}
 
