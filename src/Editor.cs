@@ -3,7 +3,7 @@ using Raylib_cs;
 
 class Editor
 {
-	private List<Window> windows = new List<Window>();
+	public static List<Window> Windows { get; set; }
 
 	public void Run()
 	{
@@ -12,6 +12,9 @@ class Editor
 		Raylib.SetWindowState(ConfigFlags.FLAG_WINDOW_RESIZABLE);
 		Raylib.SetTargetFPS(60);
 		Raylib.SetExitKey(KeyboardKey.KEY_NULL);
+
+		// Store all of the windows
+		Windows = new List<Window>();
 
 		// Main program loop
 		Start();
@@ -29,7 +32,7 @@ class Editor
 	private void Start()
 	{
 		// Register all shortcuts
-		ShortcutManager.AddShortcut(CreateNewMap, KeyboardKey.KEY_LEFT_CONTROL, KeyboardKey.KEY_N);
+		ShortcutManager.AddShortcut(() => new CreateNewMap(), KeyboardKey.KEY_LEFT_CONTROL, KeyboardKey.KEY_N);
 	}
 
 	private void Update()
@@ -38,8 +41,7 @@ class Editor
 		ShortcutManager.Listen();
 
 		// Update all the windows
-		for (int i = 0; i < windows.Count; i++) windows[i].Update();
-
+		for (int i = 0; i < Windows.Count; i++) Windows[i].Update();
 	}
 
 	private void Render()
@@ -49,37 +51,10 @@ class Editor
 
 
 		// Draw all the windows
-		for (int i = 0; i < windows.Count; i++) windows[i].Render();
+		for (int i = 0; i < Windows.Count; i++) Windows[i].Render();
 
 
 
 		Raylib.EndDrawing();
-	}
-
-
-
-
-
-
-
-
-
-
-	// Create a new map
-	private void CreateNewMap()
-	{
-		Console.WriteLine("Creating a new map rn");
-
-		// Make a new window
-		Window window = new Window("New map", 10, 10, 500, true);
-		windows.Add(window);
-
-		// Add text input for getting the map name
-		TextInput textInput = new TextInput("Map Name:");
-		window.AddElement(textInput);
-
-		// Add create button for actually making the map
-		Button button = new Button("Create", () => Console.WriteLine("d"));
-		window.AddElement(button);
 	}
 }
