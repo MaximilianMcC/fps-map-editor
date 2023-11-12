@@ -38,7 +38,7 @@ class Button : UIElement
 			Raylib.SetMouseCursor(MouseCursor.MOUSE_CURSOR_POINTING_HAND);
 
 			// Check for if the user clicks
-			if (Raylib.IsMouseButtonDown(MouseButton.MOUSE_BUTTON_LEFT))
+			if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
 			{
 				// Run the method
 				onPressed.Invoke();
