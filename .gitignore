@@ -482,4 +482,4 @@ $RECYCLE.BIN/
 *test*
 
 # map files
-.map
+*.map
