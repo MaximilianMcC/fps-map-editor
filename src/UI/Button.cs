@@ -19,6 +19,7 @@ class Button : UIElement
 		Text = text;
 		onPressed = runWhenPressed;
 
+		// Set the height
 		Height = FontSize + padding2;
 	}
 
@@ -43,6 +44,7 @@ class Button : UIElement
 				onPressed.Invoke();
 			}
 		}
+		
 		else Raylib.SetMouseCursor(MouseCursor.MOUSE_CURSOR_DEFAULT);
 
 		// Update the text X position

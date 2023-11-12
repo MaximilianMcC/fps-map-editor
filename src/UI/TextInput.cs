@@ -29,6 +29,9 @@ class TextInput : UIElement
 		// Assign values
 		Title = title;
 		Text = "";
+
+		// Set the height
+		Height = padding + FontSize + padding + FontSize + padding2 + padding;
 	}
 
 	public override void Update(int anchorX, int anchorY, int parentWidth)
@@ -65,9 +68,6 @@ class TextInput : UIElement
 			Rectangle caret = new Rectangle(x + caretX, y, 3, FontSize);
 			Raylib.DrawRectangleRec(caret, Colors.SecondaryText);
 		}
-
-		// Update the height
-		Height = (y + FontSize) - Y;
 	}
 
 	// Actually type and stuff

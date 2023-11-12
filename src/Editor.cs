@@ -68,10 +68,10 @@ class Editor
 	// Create a new map
 	private void CreateNewMap()
 	{
-		Console.WriteLine("Creating a new map");
+		Console.WriteLine("Creating a new map rn");
 
 		// Make a new window
-		Window window = new Window("New map", 10, 10, 500, 600, true);
+		Window window = new Window("New map", 10, 10, 500, true);
 		windows.Add(window);
 
 		// Add text input for getting the map name
@@ -79,12 +79,7 @@ class Editor
 		window.AddElement(textInput);
 
 		// Add create button for actually making the map
-		Button button = new Button("Create", Test);
+		Button button = new Button("Create", () => Console.WriteLine("d"));
 		window.AddElement(button);
-	}
-
-	private void Test()
-	{
-		Console.WriteLine("Clicked");
 	}
 }

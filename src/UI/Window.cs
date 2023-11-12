@@ -22,7 +22,7 @@ class Window
 
 	private List<UIElement> elements = new List<UIElement>();
 
-	public Window(string title, int x, int y, int width, int height, bool moveable)
+	public Window(string title, int x, int y, int width, bool moveable)
 	{
 		// Assign values
 		Title = title;
@@ -30,7 +30,7 @@ class Window
 		Y = y;
 		BodyY = Y + TitleHeight;
 		Width = width;
-		Height = height;
+		Height = TitleHeight + padding;
 		canBeMoved = moveable;
 	}
 
@@ -97,6 +97,10 @@ class Window
 
 	public void AddElement(UIElement element)
 	{
+		// Add the element
 		elements.Add(element);
+
+		// Update the windows height
+		Height += element.Height + padding;
 	}
 }
