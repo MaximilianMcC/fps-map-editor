@@ -54,9 +54,9 @@ class Window
 	public void Render()
 	{
 		// Draw the background and title
-		Raylib.DrawRectangle(X, Y, Width, Height, new Color(13, 25, 38, 255));
-		Raylib.DrawRectangle(X, Y, Width, TitleHeight, new Color(54, 54, 54, 255));
-		Raylib.DrawText(Title, X + padding, Y + (padding / 2), 35, Color.LIGHTGRAY);
+		Raylib.DrawRectangle(X, Y, Width, Height, Colors.WindowBackground);
+		Raylib.DrawRectangle(X, Y, Width, TitleHeight, Colors.WindowSecondary);
+		Raylib.DrawText(Title, X + padding, Y + (padding / 2), 35, Colors.SecondaryText);
 		
 		// Draw all of the elements on the window
 		for (int i = 0; i < elements.Count; i++) elements[i].Render();

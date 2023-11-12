@@ -47,23 +47,23 @@ class TextInput : UIElement
 		// Draw the title/header
 		x = X;
 		y = Y;
-		Raylib.DrawText(Title, x, y, FontSize, Color.WHITE);
+		Raylib.DrawText(Title, x, y, FontSize, Colors.Text);
 
 		// Draw the text box
 		y += FontSize + padding;
-		Raylib.DrawRectangle(x, y, Width, FontSize + padding2, Color.DARKGRAY);
-		Raylib.DrawRectangleLines(x, y, Width, FontSize + padding2, Color.GRAY);
+		Raylib.DrawRectangle(x, y, Width, FontSize + padding2, Colors.ElementBackground);
+		Raylib.DrawRectangleLines(x, y, Width, FontSize + padding2, Colors.ElementOutline);
 
 		// Draw the text
 		y += padding;
-		Raylib.DrawText(Text, x + padding, y, FontSize, Color.BLACK);
+		Raylib.DrawText(Text, x + padding, y, FontSize, Colors.Text);
 
 		// Draw the blinking caret
 		if (caretShown)
 		{
 			x += padding;
 			Rectangle caret = new Rectangle(x + caretX, y, 3, FontSize);
-			Raylib.DrawRectangleRec(caret, Color.GRAY);
+			Raylib.DrawRectangleRec(caret, Colors.SecondaryText);
 		}
 
 		// Update the height

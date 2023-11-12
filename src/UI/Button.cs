@@ -19,19 +19,16 @@ class Button : UIElement
 		Text = text;
 		onPressed = runWhenPressed;
 
-		// TODO: Don't do this here
 		Height = FontSize + padding2;
 	}
 
     public override void Update(int anchorX, int anchorY, int parentWidth)
     {
 		// Update X, Y, and Width
-		base.Update(anchorX, anchorY, Width);
+		base.Update(anchorX, anchorY, parentWidth);
 
 		// Make the buttons rectangle
-		// button = new Rectangle(X, Y, Width, Height);
-		// TODO: Figure out why tf the width is getting reset on second element
-		button = new Rectangle(X, Y, 300, Height);
+		button = new Rectangle(X, Y, Width, Height);
 
 		// Check for if its hovered over
 		if (Raylib.CheckCollisionPointRec(Raylib.GetMousePosition(), button))
@@ -49,18 +46,16 @@ class Button : UIElement
 		else Raylib.SetMouseCursor(MouseCursor.MOUSE_CURSOR_DEFAULT);
 
 		// Update the text X position
-		// TODO: Figure out why tf the width is getting reset on second element
-		textX = (int)(300 - Raylib.MeasureTextEx(Raylib.GetFontDefault(), Text, FontSize, (FontSize / 10)).X) / 2;
-		// textX = (int)(Width - Raylib.MeasureTextEx(Raylib.GetFontDefault(), Text, FontSize, (FontSize / 10)).X) / 2;
+		textX = (int)(Width - Raylib.MeasureTextEx(Raylib.GetFontDefault(), Text, FontSize, (FontSize / 10)).X) / 2;
     }
 
 	public override void Render()
 	{
 		// Draw the button background
-		Raylib.DrawRectangleRec(button, Color.DARKGRAY);
-		Raylib.DrawRectangleLinesEx(button, 5, Color.GRAY);
+		Raylib.DrawRectangleRec(button, Colors.ElementBackground);
+		Raylib.DrawRectangleLinesEx(button, 5, Colors.ElementOutline);
 
 		// Draw the button text
-		Raylib.DrawText(Text, X + textX, Y + padding, FontSize, Color.WHITE);
+		Raylib.DrawText(Text, X + textX, Y + padding, FontSize, Colors.Text);
 	}
 }
