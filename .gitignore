@@ -480,3 +480,6 @@ $RECYCLE.BIN/
 
 # test
 *test*
+
+# map files
+.map
