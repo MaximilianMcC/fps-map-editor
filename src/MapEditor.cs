@@ -4,6 +4,12 @@ using rlImGui_cs;
 
 class MapEditor
 {
+	// TODO: Put this in another class or something
+	private string mapName = "";
+	private string mapPath = "";
+
+	private Map map;
+
 	public void Run()
 	{
 		// Make the RayLib window
@@ -12,8 +18,10 @@ class MapEditor
 		Raylib.SetTargetFPS(60);
 		Raylib.SetExitKey(KeyboardKey.KEY_NULL);
 
-		// Set the ImGUI theme
-		rlImGui.Setup(true);
+
+		//! debug
+		Map map = new Map("./test.map");
+
 
 		// Main loop
 		while (!Raylib.WindowShouldClose())
@@ -23,13 +31,12 @@ class MapEditor
 		}
 
 		// Cleanup
-		rlImGui.Shutdown();
 		Raylib.CloseWindow();
 	}
 
 	private void Update()
 	{
-		
+		// TODO: Make ImGUI dialogue stuff
 	}
 
 	private void Render()
@@ -40,12 +47,7 @@ class MapEditor
 
 		Raylib.DrawText("map edior ", 10, 10, 30, Color.WHITE);
 
-		// ImGUI
-		rlImGui.Begin();
-		ImGui.ShowDemoWindow();
-
-		// End drawing
-		rlImGui.End();
 		Raylib.EndDrawing();
 	}
+
 }

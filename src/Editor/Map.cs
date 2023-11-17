@@ -16,6 +16,7 @@ class Map
 	public List<Model> Models { get; set; }
 	public List<Location> Things { get; set; }
 
+	// Make a new map file
 	public Map(string path, string name)
 	{
 		Console.WriteLine("Making map");
@@ -32,5 +33,49 @@ class Map
 		// Make the actual file for the map
 		fileName = $"{path}/{fileName}.map";
 		File.WriteAllText(fileName, contents);
+
+		// Load the map that we just made
+		Parse(fileName);
+	}
+
+	// Load a map file
+	public Map(string filepath)
+	{
+		Parse(filepath);
+	}
+
+	// Load a map
+	private void Parse(string filePath)
+	{
+		// Get the contents of the filepath
+		string[] rawContents = File.ReadAllLines(filePath);
+
+		// Remove comments
+		// TODO: Add support for `//` style also
+		List<string> contentsNoComments = new List<string>();
+		const string commentPrefix = "#";
+		for (int i = 0; i < rawContents.Length; i++)
+		{
+			// Get the current line
+			string line = rawContents[i];
+
+			// Check for if the entire line is a comment or empty
+			if (line == "" || line.StartsWith(commentPrefix)) continue;
+
+			// Check for if a portion of a line is a comment
+			int commentIndex = line.IndexOf(commentPrefix);
+			// if (commentIndex >= 0) line = line.Substring(commentIndex, line.Length - commentIndex);
+			if (commentIndex >= 0) line = line.Substring(0, commentIndex);
+
+			// Add the line without comment to the list of comment-less lines
+			contentsNoComments.Add(line);
+		}
+
+		//! debug print map file
+		foreach (string line in contentsNoComments)
+		{
+			Console.WriteLine(line);
+		}
+
 	}
 }
