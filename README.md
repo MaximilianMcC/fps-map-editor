@@ -22,22 +22,17 @@ Example Map
 ---
 
 # All of the different objects, and their path
-# IDs stored as hex because there could be a lot of them
 # assets/model/ automatically applied. Same as .obj
 1 wall
 2 floor
 3 desk
 4 chair
 # ...
-A something
-# ...
-11 something-else # hex 17
 
 # A line (>= 3 '-') separates the map into sections
 ---
 
 # All of the different textures and their path
-# IDs stored as hex because there could be a lot of them
 # assets/texture/ automatically applied. Same as .png
 1 wall1
 2 wall2
@@ -50,22 +45,18 @@ A something
 9 floor4
 10 floor5
 11 desk
-11 chair
+12 chair
 # ...
-A something
-# ...
-11 something-else # hex 17
 
 # A line (>= 3 '-') separates the map into sections
 ---
 
 # Model(model id), Position (vector 3), rotation(vector 3), and texture(texture id) of all objects in map
 # TODO: Eventually find a way to make it so that if there were multiple of the same thing together, like walls, it would combine into a single model and just either stick multiple textures, or one big texture onto it to save geometry. Since maps and stuff will be super small there will prolly be no performance increase, but its still good to do
+1 0 0 0 0 0 0 3  # Wall at 0, 0, 0, with no rotation and the wall3 texture
 
 # A line (>= 3 '-') separates the map into sections
 ---
-1 0 0 0 0 0 0 3  # Wall at 0, 0, 0, with no rotation and the wall3 texture
-
 # If the parser doesn't get to the end then there is something wrong
 end
 ```
