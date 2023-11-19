@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Text;
 using Raylib_cs;
 
 struct Location
@@ -47,6 +48,11 @@ class Map
 	// Load a map
 	private void Parse(string filePath)
 	{
+		// Reset map
+		Textures = new List<Texture2D>();
+		Models = new List<Model>();
+		Things = new List<Location>();
+
 		// Get the contents of the filepath
 		string[] contents = File.ReadAllLines(filePath);
 
@@ -80,9 +86,9 @@ class Map
 			List<string> currentChunk = new List<string>();
 			foreach (string item in chunk.Split('\n'))
 			{
-				Console.WriteLine(item);
+				Console.WriteLine($"{item}");
 				// Filter out all the crap
-				if (item == "" || item == "\n") currentChunk.Add(item.Trim());
+				if (!string.IsNullOrWhiteSpace(item)) currentChunk.Add(item.Trim());
 				
 			}
 			chunksCleaned.Add(currentChunk.ToArray());
@@ -101,8 +107,23 @@ class Map
 		// Get the map name
 		Name = chunks[0][0].Trim();
 
-		// Get the map texture paths, then load them
+		// Get the map model paths, then load them
 		foreach (string item in chunks[1])
+		{
+			// Get the path of the model
+			// TODO: Add the `./assets/textures` part somewhere in the file and not hardcode
+			string modelPath = item.Split(' ')[1];
+			modelPath = $"./assets/models/{modelPath}.obj";
+
+			// Load the model and add the model into the model list
+			Model model = Raylib.LoadModel(modelPath);
+			Models.Add(model);
+
+			Console.WriteLine("Loaded" + modelPath);
+		}
+
+		// Get the map texture paths, then load them
+		foreach (string item in chunks[2])
 		{
 			// Get the path of the texture
 			// TODO: Add the `./assets/textures` part somewhere in the file and not hardcode
@@ -114,6 +135,24 @@ class Map
 			Textures.Add(texture);
 
 			Console.WriteLine("Loaded" + texturePath);
+		}
+
+		// Get the positions of everything in the map (the actual map)
+		foreach (string item in chunks[3])
+		{
+			// Split up the position into all of its different sections
+			string[] positionInfoString = item.Split(" ");
+			int[] positionInfo = positionInfoString.Select(int.Parse).ToArray();
+
+			// Get all of the sections
+			Location location = new Location();
+			location.Model = Models[positionInfo[0]];
+			location.Position = new Vector3(positionInfo[1], positionInfo[2], positionInfo[3]);
+			location.Rotation = new Vector3(positionInfo[4], positionInfo[5], positionInfo[6]);
+			location.Texture = Textures[positionInfo[7]];
+			
+			// Add them to the list
+			Things.Add(location);
 		}
 
 	}
