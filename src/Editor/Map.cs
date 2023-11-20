@@ -13,6 +13,7 @@ struct Location
 class Map
 {
 	public string Name { get; set; }
+	public string Filepath { get; set; }
 	public List<Texture2D> Textures { get; set; }
 	public List<Model> Models { get; set; }
 	public List<Location> Things { get; set; }
@@ -42,6 +43,7 @@ class Map
 	// Load a map file
 	public Map(string filepath)
 	{
+		Filepath = filepath;
 		Parse(filepath);
 	}
 
@@ -155,5 +157,27 @@ class Map
 
 			Console.WriteLine($"Loaded a section of map");
 		}
+	}
+
+	// Reload/update a map
+	public void Reload()
+	{
+		// Unload all the previously loaded in textures
+		Console.WriteLine("Unloading stuff");
+
+		// Unload textures
+		foreach (Texture2D texture in Textures)
+		{
+			Raylib.UnloadTexture(texture);
+		}
+
+		// Unload models
+		foreach (Model model in Models)
+		{
+			Raylib.UnloadModel(model);
+		}
+
+		// Parse the new map
+		Parse(Filepath);
 	}
 }
