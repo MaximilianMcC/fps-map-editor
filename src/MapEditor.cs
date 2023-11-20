@@ -4,10 +4,6 @@ using rlImGui_cs;
 
 class MapEditor
 {
-	// TODO: Put this in another class or something
-	private string mapName = "";
-	private string mapPath = "";
-
 	private Map map;
 
 	public void Run()
@@ -20,7 +16,8 @@ class MapEditor
 
 
 		//! debug
-		Map map = new Map("./test.map");
+		map = new Map("./test.map");
+		Editor.LoadMap(map);
 
 
 		// Main loop
@@ -36,7 +33,7 @@ class MapEditor
 
 	private void Update()
 	{
-		// TODO: Make ImGUI dialogue stuff
+		Editor.Update();
 	}
 
 	private void Render()
@@ -45,7 +42,14 @@ class MapEditor
 		Raylib.BeginDrawing();
 		Raylib.ClearBackground(Color.MAGENTA);
 
-		Raylib.DrawText("map edior ", 10, 10, 30, Color.WHITE);
+		// 3D stuff
+		Raylib.BeginMode3D(Editor.Camera);
+		Editor.Render3D();
+		Raylib.EndMode3D();
+
+		// 2D stuff
+		Editor.Render2D();
+
 
 		Raylib.EndDrawing();
 	}

@@ -98,11 +98,11 @@ class Map
 		// TODO: Split up all of the parsing for different chunks (except this one) into different methods
 		// Check for if the ending chunk is there. If its not then there is something
 		// wrong with the map and it will need to be regenerated or something
-		//! if (chunks[chunks.Length - 1] != "end")
-		//! {
-		//! 	Console.WriteLine("Error while reading map file (no end) (please add one)👲");
-		//! 	return;
-		//! }
+		if (chunks[chunks.Length - 1][0] != "end")
+		{
+			Console.WriteLine("Error while reading map file (no end) (please add one)");
+			return;
+		}
 
 		// Get the map name
 		Name = chunks[0][0].Trim();
@@ -119,7 +119,7 @@ class Map
 			Model model = Raylib.LoadModel(modelPath);
 			Models.Add(model);
 
-			Console.WriteLine("Loaded" + modelPath);
+			Console.WriteLine("Loaded " + modelPath);
 		}
 
 		// Get the map texture paths, then load them
@@ -134,15 +134,14 @@ class Map
 			Texture2D texture = Raylib.LoadTexture(texturePath);
 			Textures.Add(texture);
 
-			Console.WriteLine("Loaded" + texturePath);
+			Console.WriteLine("Loaded " + texturePath);
 		}
 
 		// Get the positions of everything in the map (the actual map)
 		foreach (string item in chunks[3])
 		{
 			// Split up the position into all of its different sections
-			string[] positionInfoString = item.Split(" ");
-			int[] positionInfo = positionInfoString.Select(int.Parse).ToArray();
+			int[] positionInfo = item.Split(" ").Select(int.Parse).ToArray();
 
 			// Get all of the sections
 			Location location = new Location();
@@ -150,10 +149,11 @@ class Map
 			location.Position = new Vector3(positionInfo[1], positionInfo[2], positionInfo[3]);
 			location.Rotation = new Vector3(positionInfo[4], positionInfo[5], positionInfo[6]);
 			location.Texture = Textures[positionInfo[7]];
-			
+
 			// Add them to the list
 			Things.Add(location);
-		}
 
+			Console.WriteLine($"Loaded a section of map");
+		}
 	}
 }
