@@ -2,7 +2,7 @@ using System.Numerics;
 using System.Text;
 using Raylib_cs;
 
-struct Location
+struct Geometry
 {
 	public Model Model { get; set; }
 	public Vector3 Position { get; set; }
@@ -13,10 +13,13 @@ struct Location
 class Map
 {
 	public string Name { get; set; }
+	public string Version { get; set; }
+	public string Creator { get; set; }
 	public string Filepath { get; set; }
+
 	public List<Texture2D> Textures { get; set; }
 	public List<Model> Models { get; set; }
-	public List<Location> Things { get; set; }
+	public List<Geometry> Geometry { get; set; }
 
 	// Make a new map file
 	public Map(string path, string name)
@@ -53,7 +56,7 @@ class Map
 		// Reset map
 		Textures = new List<Texture2D>();
 		Models = new List<Model>();
-		Things = new List<Location>();
+		Geometry = new List<Geometry>();
 
 		// Get the contents of the filepath
 		string[] contents = File.ReadAllLines(filePath);
@@ -97,17 +100,10 @@ class Map
 		}
 		chunks = chunksCleaned.ToArray();
 
-		// TODO: Split up all of the parsing for different chunks (except this one) into different methods
-		// Check for if the ending chunk is there. If its not then there is something
-		// wrong with the map and it will need to be regenerated or something
-		if (chunks[chunks.Length - 1][0] != "end")
-		{
-			Console.WriteLine("Error while reading map file (no end) (please add one)");
-			return;
-		}
-
 		// Get the map name
 		Name = chunks[0][0].Trim();
+		Version = chunks[0][1].Trim();
+		Creator = chunks[0][2].Trim();
 
 		// Get the map model paths, then load them
 		foreach (string item in chunks[1])
@@ -146,14 +142,14 @@ class Map
 			int[] positionInfo = item.Split(" ").Select(int.Parse).ToArray();
 
 			// Get all of the sections
-			Location location = new Location();
+			Geometry location = new Geometry();
 			location.Model = Models[positionInfo[0]];
 			location.Position = new Vector3(positionInfo[1], positionInfo[2], positionInfo[3]);
 			location.Rotation = new Vector3(positionInfo[4], positionInfo[5], positionInfo[6]);
 			location.Texture = Textures[positionInfo[7]];
 
 			// Add them to the list
-			Things.Add(location);
+			Geometry.Add(location);
 
 			Console.WriteLine($"Loaded a section of map");
 		}

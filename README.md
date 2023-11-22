@@ -71,7 +71,7 @@ actually good (2d)
 # Map Name
 Example
 
-# Map Version
+# Map Version (string)
 1.0
 
 # Map Creator
