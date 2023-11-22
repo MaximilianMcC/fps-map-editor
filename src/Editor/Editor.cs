@@ -10,6 +10,7 @@ class Editor
 	public static Vector2 CameraPosition = Vector2.Zero;
 	public static float CameraZoom = 1f;
 	private const float zoomMultiplier = 0.1f;
+	private const float cameraSpeed = 150f;
 
 	public static void LoadMap(Map map)
 	{
@@ -48,10 +49,11 @@ class Editor
 		// TODO: Also add mouse support
 		// TODO: Maybe copy photoshop controls with the ctrl+alt+mouse thingy
 		{
-			if (Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
-			{
-
-			}
+			float movement = cameraSpeed * Raylib.GetFrameTime();
+			if (Raylib.IsKeyDown(KeyboardKey.KEY_LEFT)) CameraPosition.X -= movement;
+			if (Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT)) CameraPosition.X += movement;
+			if (Raylib.IsKeyDown(KeyboardKey.KEY_UP)) CameraPosition.Y -= movement;
+			if (Raylib.IsKeyDown(KeyboardKey.KEY_DOWN)) CameraPosition.Y += movement;
 		}
 
 		// Check for if they want to zoom in
@@ -100,20 +102,23 @@ struct Grid
 		float size = Size;
 		if (Editor.CameraZoom != 0) size = Size * Editor.CameraZoom;
 
+		// Change the offset according to camera position
+		Vector2 offset = new Vector2(Editor.CameraPosition.X % size, Editor.CameraPosition.Y % size);
+
 		// Get how many rows and columns
 		//! Rows and Columns might be reversed (idk)
-		//? 1 is added to make sure everything is always a square
-		// TODO: Use modulo (%) to try and remove the +1 part
-		int rows = (int)(Raylib.GetScreenHeight() / (size) + 1);
-		int columns = (int)(Raylib.GetScreenWidth() / (size) + 1);
+		//? 5 is added to make sure everything is always a square
+		// TODO: Use modulo (%) to try and remove the +1 part!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		int rows = (int)(Raylib.GetScreenHeight() / size) + 5;
+		int columns = (int)(Raylib.GetScreenWidth() / size) + 5;
 
 		// Horizontal
 		// TODO: Try do in a single for loop
 		for (int i = 0; i < columns; i++)
 		{
 			// Get the start and end positions
-			Vector2 start = new Vector2(i * size, 0);
-			Vector2 end = new Vector2(i * size, Raylib.GetScreenHeight());
+			Vector2 start = new Vector2((i * size) - offset.X, 0);
+			Vector2 end = new Vector2((i * size) - offset.X, Raylib.GetScreenHeight());
 
 			// Draw the line
 			Raylib.DrawLineEx(start, end, Thickness, Color);
@@ -124,8 +129,8 @@ struct Grid
 		for (int i = 0; i < rows; i++)
 		{
 			// Get the start and end positions
-			Vector2 start = new Vector2(0, i * size);
-			Vector2 end = new Vector2(Raylib.GetScreenWidth(), i * size);
+			Vector2 start = new Vector2(0, (i * size) - offset.Y);
+			Vector2 end = new Vector2(Raylib.GetScreenWidth(), (i * size) - offset.Y);
 
 			// Draw the line
 			Raylib.DrawLineEx(start, end, Thickness, Color);
