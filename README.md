@@ -65,3 +65,40 @@ end
 actually good (2d)
 ![wireframe top view](https://i.imgur.com/qu2fxoT.png)
 ![wirfre sid v](https://i.imgur.com/eaa2dQP.png)
+
+# new map (2d)
+```py
+# Map Name
+Example
+
+# Map Version
+1.0
+
+# Map Creator
+Jeff
+
+------------------------------
+
+# Map textures
+0 debug.png
+1 wall1.png
+2 wall2.png
+3 floor1.png
+4 desk.png
+
+------------------------------
+
+# Map models
+0 wall.obj
+1 floor.obj
+2 desk.obj
+
+------------------------------
+
+# Geometry/actual map
+# model id, model texture, position (vector3), rotation (vector3), has collision (1/0)
+
+# Two walls stacked on top of each other
+0 1 0 0 0 0 0 0 1
+0 1 0 1 0 0 0 0 1
+```
