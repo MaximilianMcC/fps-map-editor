@@ -60,3 +60,8 @@ Example Map
 # If the parser doesn't get to the end then there is something wrong
 end
 ```
+
+# wireframe i think (version 2)
+actually good (2d)
+![wireframe top view](https://i.imgur.com/qu2fxoT.png)
+![wirfre sid v](https://i.imgur.com/eaa2dQP.png)
