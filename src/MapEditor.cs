@@ -42,14 +42,7 @@ class MapEditor
 		Raylib.BeginDrawing();
 		Raylib.ClearBackground(Color.MAGENTA);
 
-		// 3D stuff
-		Raylib.BeginMode3D(Editor.Camera);
-		Editor.Render3D();
-		Raylib.EndMode3D();
-
-		// 2D stuff
-		Editor.Render2D();
-
+		Editor.Render();
 
 		Raylib.EndDrawing();
 	}
