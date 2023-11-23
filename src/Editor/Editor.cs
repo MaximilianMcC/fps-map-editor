@@ -4,7 +4,10 @@ using Raylib_cs;
 class Editor
 {
 	public static Map Map { get; private set; }
-	private static Grid Grid = new Grid(50, 2, Color.WHITE);
+
+	// Layout stuff
+	private static Grid Grid;
+	private static Toolbar Toolbar;
 
 	// Camera settings
 	public static Vector2 CameraPosition = Vector2.Zero;
@@ -15,6 +18,21 @@ class Editor
 	public static void LoadMap(Map map)
 	{
 		Map = map;
+
+		// Tools
+		// TODO: Load different tools depending on the map
+		Tool[] tools = new Tool[]
+		{
+			new Tool("Move", "Move stuff", "./assets/icon/move.png", 'v'),
+			new Tool("Move", "Move stuff", "./assets/icon/move.png", 'v'),
+			new Tool("Move", "Move stuff", "./assets/icon/move.png", 'v'),
+			new Tool("Move", "Move stuff", "./assets/icon/move.png", 'v')
+		};
+
+		// Layout stuff
+		Grid = new Grid(50, 1f, Color.WHITE);
+		Toolbar = new Toolbar(tools);
+
 	}
 
 	public static void Update()
@@ -32,13 +50,14 @@ class Editor
 		Grid.Draw();
 
 		// Draw the toolbar (left thingy)
+		Toolbar.Draw();
 
 		// Draw the properties (right thing)
 
 
 		// Random garbage
-		Raylib.DrawText($"{Raylib.GetFPS()} fps", 10, 10, 30, Color.BLACK);
-		Raylib.DrawText($"editijng \"{Map.Name}\" v{Map.Version}", 10, 50, 30, Color.BLACK);
+		Raylib.DrawText($"{Raylib.GetFPS()} fps", 120, 10, 30, Color.BLACK);
+		Raylib.DrawText($"editijng \"{Map.Name}\" v{Map.Version}", 120, 50, 30, Color.BLACK);
 	}
 
 
@@ -74,72 +93,5 @@ class Editor
 				Console.WriteLine($"{CameraZoom}x zoom");
 			}
 		}
-	}
-}
-
-
-
-
-struct Grid
-{
-	public float Size { get; set; } = 10f;
-	public float Thickness { get; set; } = 1f;
-	public Color Color { get; set; } = Color.WHITE;
-
-	public Grid(float size, float lineThickness, Color color)
-	{
-		// Assign variables
-		Size = size;
-		Thickness = lineThickness;
-		Color = color;
-	}
-
-	// TODO: Make it so that it can be zoomed and moved
-	// TODO: I think RayLib has fancy 2D camera to do it all for me
-	public void Draw()
-	{
-		// Change size according to zoom
-		float size = Size;
-		if (Editor.CameraZoom != 0) size = Size * Editor.CameraZoom;
-
-		// Change the offset according to camera position
-		Vector2 offset = new Vector2(Editor.CameraPosition.X % size, Editor.CameraPosition.Y % size);
-
-		// Get how many rows and columns
-		//! Rows and Columns might be reversed (idk)
-		//? 5 is added to make sure everything is always a square
-		// TODO: Use modulo (%) to try and remove the +1 part!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		int rows = (int)(Raylib.GetScreenHeight() / size) + 5;
-		int columns = (int)(Raylib.GetScreenWidth() / size) + 5;
-
-		// Horizontal
-		// TODO: Try do in a single for loop
-		for (int i = 0; i < columns; i++)
-		{
-			// Get the start and end positions
-			Vector2 start = new Vector2((i * size) - offset.X, 0);
-			Vector2 end = new Vector2((i * size) - offset.X, Raylib.GetScreenHeight());
-
-			// Draw the line
-			Raylib.DrawLineEx(start, end, Thickness, Color);
-		}
-
-		// Vertical
-		// TODO: Try do in a single for loop
-		for (int i = 0; i < rows; i++)
-		{
-			// Get the start and end positions
-			Vector2 start = new Vector2(0, (i * size) - offset.Y);
-			Vector2 end = new Vector2(Raylib.GetScreenWidth(), (i * size) - offset.Y);
-
-			// Draw the line
-			Raylib.DrawLineEx(start, end, Thickness, Color);
-		}
-	}
-
-	public Vector2 GetClosestGridPoint(Vector2 position)
-	{
-		// 'snap' to grid
-		return Vector2.Zero;
 	}
 }
