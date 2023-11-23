@@ -427,9 +427,6 @@ test-results/
 .AppleDouble
 .LSOverride
 
-# Icon must end with two \r
-Icon
-
 
 # Thumbnails
 ._*
@@ -485,7 +482,7 @@ $RECYCLE.BIN/
 # Map files and stuff
 *.map
 *.obj
-assets
+map-assets
 
 # imgui
 # TODO: Maybe remove but idk
