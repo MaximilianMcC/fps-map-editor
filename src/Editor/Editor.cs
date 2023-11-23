@@ -8,6 +8,7 @@ class Editor
 	// Layout stuff
 	private static Grid Grid;
 	private static Toolbar Toolbar;
+	private static PropertiesPanel PropertiesPanel;
 
 	// Camera settings
 	public static Vector2 CameraPosition = Vector2.Zero;
@@ -23,16 +24,16 @@ class Editor
 		// TODO: Load different tools depending on the map
 		Tool[] tools = new Tool[]
 		{
-			new Tool("Move", "Move stuff", "./assets/icon/move.png", 'v'),
-			new Tool("Move", "Move stuff", "./assets/icon/move.png", 'v'),
-			new Tool("Move", "Move stuff", "./assets/icon/move.png", 'v'),
-			new Tool("Move", "Move stuff", "./assets/icon/move.png", 'v')
+			new Tool("Move", "Move stuff", "./assets/icon/move.png", KeyboardKey.KEY_V),
+			new Tool("Vertex Selection", "Move stuff", "./assets/icon/move.png", KeyboardKey.KEY_ONE),
+			new Tool("Edge Selection", "Move stuff", "./assets/icon/move.png", KeyboardKey.KEY_TWO),
+			new Tool("Face selection", "Move stuff", "./assets/icon/move.png", KeyboardKey.KEY_THREE)
 		};
 
 		// Layout stuff
 		Grid = new Grid(50, 1f, Color.WHITE);
 		Toolbar = new Toolbar(tools);
-
+		PropertiesPanel = new PropertiesPanel();
 	}
 
 	public static void Update()
@@ -40,7 +41,12 @@ class Editor
 		// Reload the map if press F5
 		if (Raylib.IsKeyPressed(KeyboardKey.KEY_F5)) Map.Reload();
 
+		// Camera
 		MoveCamera();
+
+		// UI
+		Toolbar.Update();
+		PropertiesPanel.Update();
 	}
 
 
@@ -53,6 +59,7 @@ class Editor
 		Toolbar.Draw();
 
 		// Draw the properties (right thing)
+		PropertiesPanel.Draw();
 
 
 		// Random garbage

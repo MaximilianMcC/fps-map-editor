@@ -8,12 +8,31 @@ struct Toolbar
 	private const int Padding2 = Padding * 2;
 	private const int IconSize = Width - Padding2;
 
-	public Tool[] Tools;
-	public int SelectedToolIndex = 0;
+	public Tool[] Tools { get; set; }
+	public int SelectedToolIndex { get; set; } = 0;
+	public Tool SelectedTool
+	{
+		get { return Tools[SelectedToolIndex]; }
+		set { Tools[SelectedToolIndex] = value; }
+	}
 
 	public Toolbar(Tool[] tools)
 	{
 		Tools = tools;
+	}
+
+	// Update the toolbar
+	public void Update()
+	{
+		// Check for shortcuts
+		for (int i = 0; i < Tools.Length; i++)
+		{
+			if (Raylib.IsKeyPressed(Tools[i].ShortcutKey))
+			{
+				SelectedToolIndex = i;
+				Console.WriteLine("Selected " + Tools[i].Name);
+			}
+		}
 	}
 
 	// Draw the toolbar
@@ -37,8 +56,10 @@ struct Toolbar
 			float scale = IconSize / (float)Tools[i].Icon.width;
 			Raylib.DrawTextureEx(Tools[i].Icon, position, 0, scale, Color.WHITE);
 
-			// Calculate the position for drawing the next icon
-			position.Y += Padding2 + IconSize;
+			// Draw a line to separate the different items
+			position.Y += Padding + IconSize;
+			Raylib.DrawLineEx(new Vector2(0f, position.Y), new Vector2(Width, position.Y), 2f, Colors.BackgroundTertiary);
+			position.Y += Padding;
 		}
 	}
 }
@@ -52,12 +73,12 @@ struct Tool
 	public KeyboardKey ShortcutKey { get; set; }
 	public Texture2D Icon { get; set; }
 
-	public Tool(string name, string description, string iconTexturePath, char shortcutKey)
+	public Tool(string name, string description, string iconTexturePath, KeyboardKey shortcutKey)
 	{
 		Name = name;
 		Description = description;
+		ShortcutKey = shortcutKey;
 
 		Icon = Raylib.LoadTexture(iconTexturePath);
-		ShortcutKey = (KeyboardKey)shortcutKey;
 	}
 }
