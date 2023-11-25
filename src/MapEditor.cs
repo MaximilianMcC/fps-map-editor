@@ -21,6 +21,7 @@ class MapEditor
 
 
 		// Main loop
+		Start();
 		while (!Raylib.WindowShouldClose())
 		{
 			Update();
@@ -31,9 +32,15 @@ class MapEditor
 		Raylib.CloseWindow();
 	}
 
+	private void Start()
+	{
+		Preview.Start();
+	}
+
 	private void Update()
 	{
-		Editor.Update();
+		// Editor.Update();
+		Preview.Update();
 	}
 
 	private void Render()
@@ -42,7 +49,8 @@ class MapEditor
 		Raylib.BeginDrawing();
 		Raylib.ClearBackground(Color.MAGENTA);
 
-		Editor.Render();
+		// Editor.Render();
+		Preview.Render();
 
 		Raylib.EndDrawing();
 	}

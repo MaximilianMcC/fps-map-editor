@@ -16,6 +16,9 @@ class Editor
 	private const float zoomMultiplier = 0.1f;
 	private const float cameraSpeed = 150f;
 
+	// Orientation/view direction
+	ViewDirection viewDirection = ViewDirection.TOP;
+
 	public static void LoadMap(Map map)
 	{
 		Map = map;
@@ -101,4 +104,11 @@ class Editor
 			}
 		}
 	}
+}
+
+
+enum ViewDirection
+{
+	TOP,
+	SIDE
 }
