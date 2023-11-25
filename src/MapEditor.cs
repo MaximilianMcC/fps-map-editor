@@ -5,6 +5,7 @@ using rlImGui_cs;
 class MapEditor
 {
 	private Map map;
+	private bool previewEnabled;
 
 	public void Run()
 	{
@@ -39,8 +40,10 @@ class MapEditor
 
 	private void Update()
 	{
-		// Editor.Update();
-		Preview.Update();
+		// Switch between map editor and obj preview with 'p'
+		if (Raylib.IsKeyPressed(KeyboardKey.KEY_P)) previewEnabled = !previewEnabled;
+		if (previewEnabled) Preview.Update();
+		else Editor.Update();
 	}
 
 	private void Render()
@@ -49,8 +52,8 @@ class MapEditor
 		Raylib.BeginDrawing();
 		Raylib.ClearBackground(Color.MAGENTA);
 
-		// Editor.Render();
-		Preview.Render();
+		if (previewEnabled) Preview.Render();
+		else Editor.Render();
 
 		Raylib.EndDrawing();
 	}
