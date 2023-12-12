@@ -1,10 +1,7 @@
-using ImGuiNET;
 using Raylib_cs;
-using rlImGui_cs;
 
 class MapEditor
 {
-	private Map map;
 	private bool previewEnabled;
 
 	public void Run()
@@ -14,12 +11,6 @@ class MapEditor
 		Raylib.SetWindowState(ConfigFlags.FLAG_WINDOW_RESIZABLE);
 		Raylib.SetTargetFPS(60);
 		Raylib.SetExitKey(KeyboardKey.KEY_NULL);
-
-
-		//! debug
-		map = new Map("./test.map");
-		Editor.LoadMap(map);
-
 
 		// Main loop
 		Start();

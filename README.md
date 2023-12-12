@@ -102,3 +102,16 @@ Jeff
 0 1 0 0 0 0 0 0 1
 0 1 0 1 0 0 0 0 1
 ```
+
+Use a mixture of small, and large `obj` files to store the map. Larger things, like terrain, or entire buildings can be a single obj, while smaller things, like barrels, chairs, etc, can be separate `obj`s. 
+
+
+# obj preview
+the obj preview thingy is a debug tool thingy that I use to learn how to write obj file by hand. It live updates whenever the file is saved
+
+# map structure
+there will be 3 "sections" to a map
+- walls
+- floor
+- roof
+All one object

@@ -62,7 +62,25 @@ class Preview
 		Raylib.EndMode3D();
 
 		Raylib.DrawText("Obj preview live", 10, 10, 30, Color.WHITE);
-		Raylib.DrawText($"{camera.position}", 10, 40, 30, Color.WHITE);
+		Raylib.DrawText($"Facing {GetCameraDirectionString()} at {camera.position}", 10, 50, 30, Color.WHITE);
 		Raylib.DrawText($"{Raylib.GetFPS()} FPS", 10, 80, 30, Color.WHITE);
+	}
+
+
+
+	//! idk the gbt gave me this because I'm not gonna mess around with the stupid built in camera (bad)
+	private static string GetCameraDirectionString()
+	{
+		Vector3 direction = Vector3.Normalize(camera.target - camera.position);
+		float angle = (float)Math.Atan2(direction.X, direction.Z);
+
+		if (angle >= -Math.PI / 4 && angle < Math.PI / 4)
+			return "north";
+		else if (angle >= Math.PI / 4 && angle < 3 * Math.PI / 4)
+			return "east";
+		else if ((angle >= 3 * Math.PI / 4 && angle <= Math.PI) || (angle >= -Math.PI && angle < -3 * Math.PI / 4))
+			return "south";
+		else
+			return "west";
 	}
 }
