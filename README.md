@@ -12,106 +12,10 @@ This is the second version of this program. I was making the first one from scra
 ### version 3
 switching back to raylib, and using imgui 
 
-# Map file plan
-planning of what the map will look like.
-```py
-# Map name
-Example Map
-
-# A line (>= 3 '-') separates the map into sections
----
-
-# All of the different objects, and their path
-# assets/model/ automatically applied. Same as .obj
-1 wall
-2 floor
-3 desk
-4 chair
-# ...
-
-# A line (>= 3 '-') separates the map into sections
----
-
-# All of the different textures and their path
-# assets/texture/ automatically applied. Same as .png
-1 wall1
-2 wall2
-3 wall3
-4 wall4
-5 wall5
-6 floor1
-7 floor2
-8 floor3
-9 floor4
-10 floor5
-11 desk
-12 chair
-# ...
-
-# A line (>= 3 '-') separates the map into sections
----
-
-# Model(model id), Position (vector 3), rotation(vector 3), and texture(texture id) of all objects in map
-# TODO: Eventually find a way to make it so that if there were multiple of the same thing together, like walls, it would combine into a single model and just either stick multiple textures, or one big texture onto it to save geometry. Since maps and stuff will be super small there will prolly be no performance increase, but its still good to do
-1 0 0 0 0 0 0 3  # Wall at 0, 0, 0, with no rotation and the wall3 texture
-
-# A line (>= 3 '-') separates the map into sections
----
-# If the parser doesn't get to the end then there is something wrong
-end
-```
-
 # wireframe i think (version 2)
 actually good (2d)
 ![wireframe top view](https://i.imgur.com/qu2fxoT.png)
 ![wirfre sid v](https://i.imgur.com/eaa2dQP.png)
 
-# new map (2d)
-```py
-# Map Name
-Example
-
-# Map Version (string)
-1.0
-
-# Map Creator
-Jeff
-
-------------------------------
-
-# Map textures
-0 debug.png
-1 wall1.png
-2 wall2.png
-3 floor1.png
-4 desk.png
-
-------------------------------
-
-# Map models
-0 wall.obj
-1 floor.obj
-2 desk.obj
-
-------------------------------
-
-# Geometry/actual map
-# model id, model texture, position (vector3), rotation (vector3), has collision (1/0)
-
-# Two walls stacked on top of each other
-0 1 0 0 0 0 0 0 1
-0 1 0 1 0 0 0 0 1
-```
-
-Use a mixture of small, and large `obj` files to store the map. Larger things, like terrain, or entire buildings can be a single obj, while smaller things, like barrels, chairs, etc, can be separate `obj`s. 
-
-
-# obj preview
-the obj preview thingy is a debug tool thingy that I use to learn how to write obj file by hand. It live updates whenever the file is saved
-
-# map structure
-there will be 3 "sections" to a map
-- walls
-- floor
-- roof
-All one object
+# restartin again last time i swear (wirframe)
+![this is last restart trust](https://i.imgur.com/2n64s64.png)

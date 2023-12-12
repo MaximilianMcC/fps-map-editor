@@ -4,7 +4,7 @@ using Raylib_cs;
 class Editor
 {
 	private static Camera3D camera;
-	private static bool paused;
+	private static bool cameraMovement = true;
 
 	public static void Start()
 	{
@@ -17,18 +17,23 @@ class Editor
 			projection = CameraProjection.CAMERA_PERSPECTIVE
 		};
 		Raylib.DisableCursor();
+
+		LeftPanel.Start();
 	}
 
 	public static void Update()
 	{
 		// Update camera
-		if (!paused) Raylib.UpdateCamera(ref camera, CameraMode.CAMERA_FIRST_PERSON);
+		if (!cameraMovement) Raylib.UpdateCamera(ref camera, CameraMode.CAMERA_FIRST_PERSON);
 		if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE))
 		{
-			paused = !paused;
-			if (paused) Raylib.EnableCursor();
+			cameraMovement = !cameraMovement;
+			if (cameraMovement) Raylib.EnableCursor();
 			else Raylib.DisableCursor();
 		}
+
+		// Update panels
+		LeftPanel.Update();
 	}
 
 	public static void Render()
@@ -40,5 +45,9 @@ class Editor
 		Raylib.EndMode3D();
 
 		// Draw 2D stuff
+		LeftPanel.Draw();
+
+		// Draw camera info
+		Raylib.DrawText($"{Raylib.GetFPS()} fps\n{camera.position}", (int)LeftPanel.WIDTH + 10, 10, 30, Colors.Text);
 	}
 }

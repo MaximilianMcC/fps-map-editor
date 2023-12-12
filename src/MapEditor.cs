@@ -32,14 +32,23 @@ class MapEditor
 	private void Update()
 	{
 		// Switch between map editor and obj preview with 'p'
-		if (Raylib.IsKeyPressed(KeyboardKey.KEY_P)) previewEnabled = !previewEnabled;
+		if (Raylib.IsKeyPressed(KeyboardKey.KEY_P))
+		{
+			previewEnabled = !previewEnabled;
+
+			// Change the window title
+			if (previewEnabled) Raylib.SetWindowTitle("Map editor (obj preview)");
+			else Raylib.SetWindowTitle("Map editor");
+		}
+
+		// Update either the editor or preview
 		if (previewEnabled) Preview.Update();
 		else Editor.Update();
 	}
 
 	private void Render()
 	{
-		// Begin RayLib 2D drawing
+		// Begin RayLib drawing
 		Raylib.BeginDrawing();
 		Raylib.ClearBackground(Color.MAGENTA);
 
