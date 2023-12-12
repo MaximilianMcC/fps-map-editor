@@ -7,7 +7,7 @@ class MapEditor
 	public void Run()
 	{
 		// Make the RayLib window
-		Raylib.InitWindow(1440, 1080, "m 3");
+		Raylib.InitWindow(1440, 1080, "Map editor");
 		Raylib.SetWindowState(ConfigFlags.FLAG_WINDOW_RESIZABLE);
 		Raylib.SetTargetFPS(60);
 		Raylib.SetExitKey(KeyboardKey.KEY_NULL);
