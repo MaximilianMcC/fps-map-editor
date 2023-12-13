@@ -3,6 +3,8 @@ using Raylib_cs;
 
 class Editor
 {
+	public static ModelInfo SelectedThing { get; private set; }
+
 	private static Camera3D camera;
 	private static bool cameraMovement = true;
 
