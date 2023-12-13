@@ -26,6 +26,10 @@ class MapEditor
 
 	private void Start()
 	{
+		// Load all the assets and whatnot
+		Ui.Init("./assets/");
+
+		Editor.Start();
 		Preview.Start();
 	}
 

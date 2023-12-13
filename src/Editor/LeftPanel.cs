@@ -33,13 +33,13 @@ class LeftPanel
 	{
 		// Draw the main panel background
 		Rectangle panel = new Rectangle(0, 0, WIDTH, Raylib.GetScreenHeight());
-		Raylib.DrawRectangleRec(panel, Colors.Background);
+		Raylib.DrawRectangleRec(panel, Ui.Colors.Background);
 
 		// Draw all the models
 		//! this is just temp for now
 		for (int i = 0; i < models.Count; i++)
 		{
-			Raylib.DrawText(models[i].Name, 10, i * 10, 10, Colors.Text);
+			Raylib.DrawText(models[i].Name, 10, i * 10, 10, Ui.Colors.Text);
 		}
 	}
 }

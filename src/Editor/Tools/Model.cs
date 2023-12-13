@@ -7,8 +7,8 @@ struct ModelInfo
 	public ModelInfo(string filePath)
 	{
 		// Make the name
-		// TODO: Do this better more safe way
-		Name = filePath.Split("/")[filePath.LastIndexOf("/")].Replace(".obj", "").Trim();
+		// TODO: Do this better more safer/faster way (this kinda crook rn!!)
+		Name = char.ToUpper(Path.GetFileName(filePath).Replace(".obj", "")[0]) + Path.GetFileName(filePath).Replace(".obj", "").Substring(1);
 		FilePath = filePath;
 	}
 }

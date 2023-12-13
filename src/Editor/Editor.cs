@@ -19,6 +19,7 @@ class Editor
 		Raylib.DisableCursor();
 
 		LeftPanel.Start();
+		RightPanel.Start();
 	}
 
 	public static void Update()
@@ -34,6 +35,7 @@ class Editor
 
 		// Update panels
 		LeftPanel.Update();
+		RightPanel.Update();
 	}
 
 	public static void Render()
@@ -46,8 +48,9 @@ class Editor
 
 		// Draw 2D stuff
 		LeftPanel.Draw();
+		RightPanel.Draw();
 
 		// Draw camera info
-		Raylib.DrawText($"{Raylib.GetFPS()} fps\n{camera.position}", (int)LeftPanel.WIDTH + 10, 10, 30, Colors.Text);
+		Raylib.DrawText($"{Raylib.GetFPS()} fps\n{camera.position}", (int)LeftPanel.WIDTH + 10, 10, 30, Ui.Colors.Text);
 	}
 }
