@@ -7,7 +7,8 @@ class Editor
 	private static Camera3D camera;
 	private static bool cameraMovement = true;
 
-	public static Placeable SelectedThing = null;
+	public static List<Placeable> Placeables { get; set; }
+	public static Placeable SelectedThing = null; // TODO: Make custom getter that returns it based on index list
 
 	public static void Start()
 	{
@@ -24,14 +25,21 @@ class Editor
 		LeftPanel.Start();
 		RightPanel.Start();
 
-		Placeable test = new Placeable("./map-assets/desk.obj");
-		SelectedThing = test;
+		// Load in all of the models
+		// TODO: Do this somewhere else
+		Placeables = new List<Placeable>();
+		string[] modelPaths = Directory.GetFiles("./map-assets/models", "*.obj");
+		foreach (string modelPath in modelPaths)
+		{
+			Placeable placeable = new Placeable(modelPath);
+			Placeables.Add(placeable);
+		}
+		if (Placeables.Count > 1) SelectedThing = Placeables[0];
+		Console.WriteLine(SelectedThing);
 	}
 
 	public static void Update()
 	{
-		Console.WriteLine(SelectedThing.Position);
-
 		// Update camera
 		if (!cameraMovement) Raylib.UpdateCamera(ref camera, CameraMode.CAMERA_FIRST_PERSON);
 		if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE))
@@ -53,6 +61,7 @@ class Editor
 		// Draw 3D stuff
 		Raylib.DrawGrid(10, 1);
 		Raylib.EndMode3D();
+		SelectedThing.Render();
 
 		// Draw 2D stuff
 		LeftPanel.Draw();
