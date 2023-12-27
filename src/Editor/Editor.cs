@@ -3,10 +3,11 @@ using Raylib_cs;
 
 class Editor
 {
-	public static ModelInfo SelectedThing { get; private set; }
 
 	private static Camera3D camera;
 	private static bool cameraMovement = true;
+
+	public static Placeable SelectedThing = null;
 
 	public static void Start()
 	{
@@ -22,10 +23,15 @@ class Editor
 
 		LeftPanel.Start();
 		RightPanel.Start();
+
+		Placeable test = new Placeable("./map-assets/desk.obj");
+		SelectedThing = test;
 	}
 
 	public static void Update()
 	{
+		Console.WriteLine(SelectedThing.Position);
+
 		// Update camera
 		if (!cameraMovement) Raylib.UpdateCamera(ref camera, CameraMode.CAMERA_FIRST_PERSON);
 		if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE))

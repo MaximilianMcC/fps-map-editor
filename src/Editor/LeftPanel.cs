@@ -4,7 +4,6 @@ class LeftPanel
 {
 	public const float WIDTH = 350;
 
-	private static List<ModelInfo> models = new List<ModelInfo>();
 
 	public static void Start()
 	{
@@ -20,7 +19,6 @@ class LeftPanel
 		// TODO: Also add previews of them
 		for (int i = 0; i < files.Length; i++)
 		{
-			models.Add(new ModelInfo(files[i]));
 		}
 	}
 
@@ -37,9 +35,5 @@ class LeftPanel
 
 		// Draw all the models
 		//! this is just temp for now
-		for (int i = 0; i < models.Count; i++)
-		{
-			Raylib.DrawText(models[i].Name, 10, i * 10, 10, Ui.Colors.Text);
-		}
 	}
 }

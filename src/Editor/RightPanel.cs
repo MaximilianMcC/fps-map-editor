@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Security.Cryptography;
 using Raylib_cs;
 
 class RightPanel
@@ -8,6 +9,8 @@ class RightPanel
 	public const float PADDING2 = PADDING * 2;
 	private static float elementY = PADDING;
 	
+	private static Axis currentAxis = Axis.X;
+	
 	public static void Start()
 	{
 		
@@ -16,11 +19,30 @@ class RightPanel
 	public static void Update()
 	{
 		// Check for if the selected thing has transform controls
-		if (Editor.SelectedThing is Placeable)
+		// if (Editor.SelectedThing != null)
+		if (true)
 		{
-			// Show transform controls
-			// (x, y, z, rotation, scale)
+			// TODO: Add ui for this and stuff
+			// Change the axis
+			if (Raylib.IsKeyPressed(KeyboardKey.KEY_X)) currentAxis = Axis.X;
+			if (Raylib.IsKeyPressed(KeyboardKey.KEY_Y)) currentAxis = Axis.Y;
+			if (Raylib.IsKeyPressed(KeyboardKey.KEY_Z)) currentAxis = Axis.Z;
 
+			// Increase the current axis by 1
+			else if (Raylib.IsKeyDown(KeyboardKey.KEY_KP_ADD) || Raylib.IsKeyDown(KeyboardKey.KEY_EQUAL))
+			{
+				if (currentAxis == Axis.X) Editor.SelectedThing.Position += Vector3.UnitX;
+				if (currentAxis == Axis.Y) Editor.SelectedThing.Position += Vector3.UnitY;
+				if (currentAxis == Axis.Z) Editor.SelectedThing.Position += Vector3.UnitZ;
+			}
+
+			// Decrease the current axis by 1
+			else if (Raylib.IsKeyDown(KeyboardKey.KEY_KP_SUBTRACT) || Raylib.IsKeyDown(KeyboardKey.KEY_MINUS))
+			{
+				if (currentAxis == Axis.X) Editor.SelectedThing.Position -= Vector3.UnitX;
+				if (currentAxis == Axis.Y) Editor.SelectedThing.Position -= Vector3.UnitY;
+				if (currentAxis == Axis.Z) Editor.SelectedThing.Position -= Vector3.UnitZ;
+			}
 		}
 	}
 
@@ -50,6 +72,17 @@ class RightPanel
 			// Draw the number
 
 			// Draw the right addition button
+
+			// Draw the currently selected axis
+			Color color;
+			color = (currentAxis == Axis.X) ? Color.RED : Color.GRAY;
+			Raylib.DrawTextPro(Ui.Fonts.Main, "x", new Vector2(anchorX + PADDING, PADDING), Vector2.Zero, 0f, 30f, (30f / 10f), color);
+
+			color = (currentAxis == Axis.Y) ? new Color(139, 220, 0, 255) : Color.GRAY;
+			Raylib.DrawTextPro(Ui.Fonts.Main, "y", new Vector2(anchorX + PADDING + 30, PADDING), Vector2.Zero, 0f, 30f, (30f / 10f), color);
+
+			color = (currentAxis == Axis.Z) ? new Color(40, 144, 255, 255) : Color.GRAY;
+			Raylib.DrawTextPro(Ui.Fonts.Main, "z", new Vector2(anchorX + PADDING + 60, PADDING), Vector2.Zero, 0f, 30f, (30f / 10f), color);
 		}
 	}
 }
