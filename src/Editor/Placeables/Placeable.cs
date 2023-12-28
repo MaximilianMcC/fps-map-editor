@@ -32,11 +32,19 @@ class Placeable
 	{
 		Console.WriteLine("Rendering the " + Name + " rn");
 		// Raylib.DrawModelEx(Model, Position, Rotation, 0f, Scale, Color.WHITE);
-		Raylib.DrawModel(Model, Position, 1, Color.WHITE);
+		// Raylib.DrawModelEx(Model, Vector3.Zero, new Vector3(0f, 1f, 0f), 90f, Vector3.One, Color.WHITE);
+		// Raylib.DrawModelEx(Model, Vector3.Zero, new Vector3(30f, 10f, 20f), 0f, Vector3.One, Color.WHITE);
+		// Raylib.DrawModelEx(Model, Vector3.Zero, new Vector3(30, 45, 0), 0f, Vector3.One, Color.WHITE);
+		// Raylib.DrawCube(new Vector3(0, 0, -10), 10, 10, 10, Color.RED);
+
+		float size = 1f;
+		Mesh mesh = Raylib.GenMeshCube(size, size, size);
+		Model model = Raylib.LoadModelFromMesh(mesh);
+		// model.transform = new Matrix4x4()
 	}
 
-    public override string ToString()
-    {
-        return Name;
-    }
+	public override string ToString()
+	{
+		return Name;
+	}
 }

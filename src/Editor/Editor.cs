@@ -60,8 +60,8 @@ class Editor
 
 		// Draw 3D stuff
 		Raylib.DrawGrid(10, 1);
-		Raylib.EndMode3D();
 		SelectedThing.Render();
+		Raylib.EndMode3D();
 
 		// Draw 2D stuff
 		LeftPanel.Draw();

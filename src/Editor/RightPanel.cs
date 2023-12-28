@@ -9,6 +9,8 @@ class RightPanel
 	private static float elementY = PADDING;
 	
 	private static Axis currentAxis = Axis.X;
+	private static float movementAmount = 0.5f;
+	private static bool moving = true;
 	
 	public static void Start()
 	{
@@ -21,6 +23,10 @@ class RightPanel
 		// if (Editor.SelectedThing != null)
 		if (true)
 		{
+			// Check for if we moving or rotating
+			if (Raylib.IsKeyPressed(KeyboardKey.KEY_G)) moving = true;
+			if (Raylib.IsKeyPressed(KeyboardKey.KEY_R)) moving = false;
+
 			// TODO: Add ui for this and stuff
 			// Change the axis
 			if (Raylib.IsKeyPressed(KeyboardKey.KEY_X)) currentAxis = Axis.X;
@@ -28,19 +34,37 @@ class RightPanel
 			if (Raylib.IsKeyPressed(KeyboardKey.KEY_Z)) currentAxis = Axis.Z;
 
 			// Increase the current axis by 1
-			else if (Raylib.IsKeyDown(KeyboardKey.KEY_KP_ADD) || Raylib.IsKeyDown(KeyboardKey.KEY_EQUAL))
+			else if (Raylib.IsKeyPressed(KeyboardKey.KEY_KP_ADD) || Raylib.IsKeyPressed(KeyboardKey.KEY_EQUAL))
 			{
-				if (currentAxis == Axis.X) Editor.SelectedThing.Position += Vector3.UnitX;
-				if (currentAxis == Axis.Y) Editor.SelectedThing.Position += Vector3.UnitY;
-				if (currentAxis == Axis.Z) Editor.SelectedThing.Position += Vector3.UnitZ;
+				if (moving)
+				{
+					if (currentAxis == Axis.X) Editor.SelectedThing.Position += (Vector3.UnitX * movementAmount);
+					if (currentAxis == Axis.Y) Editor.SelectedThing.Position += (Vector3.UnitY * movementAmount);
+					if (currentAxis == Axis.Z) Editor.SelectedThing.Position += (Vector3.UnitZ * movementAmount);
+				}
+				else
+				{
+					if (currentAxis == Axis.X) Editor.SelectedThing.Rotation += (Vector3.UnitX * movementAmount);
+					if (currentAxis == Axis.Y) Editor.SelectedThing.Rotation += (Vector3.UnitY * movementAmount);
+					if (currentAxis == Axis.Z) Editor.SelectedThing.Rotation += (Vector3.UnitZ * movementAmount);
+				}
 			}
 
 			// Decrease the current axis by 1
-			else if (Raylib.IsKeyDown(KeyboardKey.KEY_KP_SUBTRACT) || Raylib.IsKeyDown(KeyboardKey.KEY_MINUS))
+			else if (Raylib.IsKeyPressed(KeyboardKey.KEY_KP_SUBTRACT) || Raylib.IsKeyPressed(KeyboardKey.KEY_MINUS))
 			{
-				if (currentAxis == Axis.X) Editor.SelectedThing.Position -= Vector3.UnitX;
-				if (currentAxis == Axis.Y) Editor.SelectedThing.Position -= Vector3.UnitY;
-				if (currentAxis == Axis.Z) Editor.SelectedThing.Position -= Vector3.UnitZ;
+				if (moving)
+				{
+					if (currentAxis == Axis.X) Editor.SelectedThing.Position -= (Vector3.UnitX * movementAmount);
+					if (currentAxis == Axis.Y) Editor.SelectedThing.Position -= (Vector3.UnitY * movementAmount);
+					if (currentAxis == Axis.Z) Editor.SelectedThing.Position -= (Vector3.UnitZ * movementAmount);
+				}
+				else
+				{
+					if (currentAxis == Axis.X) Editor.SelectedThing.Rotation -= (Vector3.UnitX * movementAmount);
+					if (currentAxis == Axis.Y) Editor.SelectedThing.Rotation -= (Vector3.UnitY * movementAmount);
+					if (currentAxis == Axis.Z) Editor.SelectedThing.Rotation -= (Vector3.UnitZ * movementAmount);
+				}
 			}
 		}
 	}
@@ -82,6 +106,14 @@ class RightPanel
 
 			color = (currentAxis == Axis.Z) ? new Color(40, 144, 255, 255) : Color.GRAY;
 			Raylib.DrawTextPro(Ui.Fonts.Main, "z", new Vector2(anchorX + PADDING + 60, PADDING), Vector2.Zero, 0f, 30f, (30f / 10f), color);
+
+			// Draw if we moving or rotating
+			color = (moving == true) ? Color.WHITE : Color.GRAY;
+			Raylib.DrawTextPro(Ui.Fonts.Main, "g", new Vector2(anchorX + PADDING, PADDING + 30), Vector2.Zero, 0f, 30f, (30f / 10f), color);
+
+			color = (moving == false) ? Color.WHITE : Color.GRAY;
+			Raylib.DrawTextPro(Ui.Fonts.Main, "r", new Vector2(anchorX + PADDING + 30, PADDING + 30), Vector2.Zero, 0f, 30f, (30f / 10f), color);
+			
 		}
 	}
 }
