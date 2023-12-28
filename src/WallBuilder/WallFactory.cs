@@ -85,20 +85,17 @@ class WallFactory
 		// Loop over every single point in the walls and find the closest
 		// point that is within the snapping distance.
 		// TODO: Put computed distances into a cache or something to make it a bit faster. I doubt it will really do anything though
-		Dictionary<float, Vector2> pointsWithinDistance = new Dictionary<float, Vector2>();
-		foreach (Wall currentWall in WallBuilder.Walls)
+		List<Vector2> pointsWithinDistance = new List<Vector2>();
+		foreach (Wall wall in WallBuilder.Walls)
 		{
 			// Get the distance between the two points and check for if its
 			// within the snapping distance
-			float distance = Distance(currentWall.PointA, originalPoint);
-			if (distance <= snappingTolerance && !pointsWithinDistance.ContainsKey(distance))
-				pointsWithinDistance.Add(distance, currentWall.PointA);
+			float distanceA = Distance(originalPoint, wall.PointA);
+			float distanceB = Distance(originalPoint, wall.PointB);
 
-			// Same thing again but for point B
-			// TODO: Put in method or something so code isn't
-			distance = Distance(currentWall.PointB, originalPoint);
-			if (distance <= snappingTolerance && !pointsWithinDistance.ContainsKey(distance))
-				pointsWithinDistance.Add(distance, currentWall.PointB);
+			// Check for if the points are within the distance threshold
+			if (distanceA <= snappingTolerance) pointsWithinDistance.Add(wall.PointA);
+			if (distanceB <= snappingTolerance) pointsWithinDistance.Add(wall.PointB);
 		}
 
 		// Use the new point if it exists
@@ -106,7 +103,7 @@ class WallFactory
 		{
 			// Get the closest point to the original point
 			// by sorting the dictionary, then getting the value of the first item
-			Vector2 snappedPoint = pointsWithinDistance.OrderBy(distance => distance.Key).First().Value;
+			Vector2 snappedPoint = pointsWithinDistance.OrderBy(point => Distance(originalPoint, point)).First();
 			return snappedPoint;
 		}
 
