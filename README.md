@@ -19,3 +19,6 @@ actually good (2d)
 
 # restartin again last time i swear (wirframe)
 ![this is last restart trust](https://i.imgur.com/2n64s64.png)
+
+# ok reatar again but i swear this the last time for real this time (wir fra me)
+![last fr](https://i.imgur.com/pBp18jy.png)

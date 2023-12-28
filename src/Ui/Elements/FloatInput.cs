@@ -1,4 +1,0 @@
-class FloatInput : UiElement
-{
-
-}

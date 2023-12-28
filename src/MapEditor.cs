@@ -7,7 +7,7 @@ class MapEditor
 	public void Run()
 	{
 		// Make the RayLib window
-		Raylib.InitWindow(1440, 1080, "Map editor");
+		Raylib.InitWindow(1440, 1080, "Map editor version 26 or something i forgot");
 		Raylib.SetWindowState(ConfigFlags.FLAG_WINDOW_RESIZABLE);
 		Raylib.SetTargetFPS(60);
 		Raylib.SetExitKey(KeyboardKey.KEY_NULL);
@@ -26,30 +26,12 @@ class MapEditor
 
 	private void Start()
 	{
-		// Load all the assets and whatnot
-		Ui.Init("./assets/");
 
-		// Editor.Start();
-		// Preview.Start();
-		WallBuilder.Start();
 	}
 
 	private void Update()
 	{
-		// Switch between map editor and obj preview with 'p'
-		// if (Raylib.IsKeyPressed(KeyboardKey.KEY_P))
-		// {
-		// 	previewEnabled = !previewEnabled;
 
-		// 	// Change the window title
-		// 	if (previewEnabled) Raylib.SetWindowTitle("Map editor (obj preview)");
-		// 	else Raylib.SetWindowTitle("Map editor");
-		// }
-
-		// // Update either the editor or preview
-		// if (previewEnabled) Preview.Update();
-		// else Editor.Update();
-		WallBuilder.Update();
 	}
 
 	private void Render()
@@ -58,9 +40,7 @@ class MapEditor
 		Raylib.BeginDrawing();
 		Raylib.ClearBackground(Color.MAGENTA);
 
-		// if (previewEnabled) Preview.Render();
-		// else Editor.Render();
-		WallBuilder.Render();
+		
 
 		Raylib.EndDrawing();
 	}
