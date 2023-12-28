@@ -10,14 +10,6 @@ class WallBuilder
 	{
 		// Make a new list to hold all of the walls
 		Walls = new List<Wall>();
-
-		// Add walls
-		// TODO: Remove and do from UI (map editor)
-		Walls.Add(new Wall(new Vector2(10, 10), new Vector2(40, 50)));
-		Walls.Add(new Wall(new Vector2(40, 50), new Vector2(100, 50)));
-		Walls.Add(new Wall(new Vector2(10, 10), new Vector2(10, 100)));
-		Walls.Add(new Wall(new Vector2(10, 100), new Vector2(65, 120)));
-		Walls.Add(new Wall(new Vector2(65, 120), new Vector2(100, 50)));
 	}
 
 	public static void Update()
