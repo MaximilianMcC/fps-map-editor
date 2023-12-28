@@ -11,6 +11,8 @@ class Editor
 	public static void Update()
 	{
 		Grid.UpdateGridCamera();
+
+		
 	}
 
 	public static void Render()
