@@ -1,8 +1,12 @@
 using System.Numerics;
+using System.Text.RegularExpressions;
 using Raylib_cs;
 
 class Editor
 {
+	//! debug
+	static Vector2 e;
+
 	public static void Start()
 	{
 		
@@ -11,8 +15,7 @@ class Editor
 	public static void Update()
 	{
 		Grid.UpdateGridCamera();
-
-		
+		AddTiles();
 	}
 
 	public static void Render()
@@ -20,8 +23,26 @@ class Editor
 		// Draw the background
 		Raylib.ClearBackground(Ui.EditorBackgroundColor);
 		Grid.DrawGrid();
+
+		Raylib.DrawRectangle((int)e.X, (int)e.Y, 100, 100, Color.BEIGE);
 	}
 
+
+
+
+	private static void AddTiles()
+	{
+		// Check for if the user clicks. If they do, then translate the mouse position
+		// into grid coordinates, and add the tile to the grid at that position
+		if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
+		{
+			Vector2 mousePosition = Raylib.GetMousePosition();
+			Vector2 gridPosition = Grid.GetGridPosition(mousePosition);
+
+			//!debug
+			e = gridPosition;
+		}
+	}
 
 
 
@@ -34,6 +55,13 @@ class Editor
 		private static Vector2 cameraPosition = Vector2.Zero;
 		private const float cameraSpeed = 150f;
 		private const float zoomMultiplier = 0.1f;
+
+
+		// Turn screen coordinates to grid coordinates
+		public static Vector2 GetGridPosition(Vector2 screenPosition)
+		{
+				
+		}
 
 
 		// Update the grid camera stuff

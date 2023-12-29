@@ -23,7 +23,12 @@ class Tile
 	public void Update()
 	{
 		// Check for if we are being selected from a shortcut
-		if (Raylib.IsKeyPressed(shortcutKey)) Toolbar.SelectedTile = this;
+		if (Raylib.IsKeyPressed(shortcutKey))
+		{
+			// Toggle the tool 
+			if (Toolbar.SelectedTile == this) Toolbar.SelectedTile = null;
+			else Toolbar.SelectedTile = this;
+		}
 
 		// Check for if we are selected. If we aren't then don't update
 		if (Toolbar.SelectedTile != this) return;

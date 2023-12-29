@@ -16,10 +16,7 @@ class Toolbar
 		// Make a list to get all of the tiles in the toolbar
 		// and all of the tiles
 		Tiles = new List<Tile>();
-		Tiles.Add(new Tile("Straight Wall", "A straight wall", "./assets/tiles/straight.png", KeyboardKey.KEY_S));
-		Tiles.Add(new Tile("Straight Wall", "A straight wall", "./assets/tiles/straight.png", KeyboardKey.KEY_S));
-		Tiles.Add(new Tile("Straight Wall", "A straight wall", "./assets/tiles/straight.png", KeyboardKey.KEY_S));
-		Tiles.Add(new Tile("Straight Wall", "A straight wall", "./assets/tiles/straight.png", KeyboardKey.KEY_S));
+		new Tile("Straight Wall", "A straight wall", "./assets/tiles/straight.png", KeyboardKey.KEY_S);
 	}
 
 	public static void Update()
@@ -29,8 +26,6 @@ class Toolbar
 
 		// Update all of the tiles
 		foreach (Tile tile in Tiles) tile.Update();
-
-		Console.WriteLine(SelectedTile);
 	}
 
 	public static void Render()
@@ -47,12 +42,14 @@ class Toolbar
 			float size = Width - Ui.Padding2;
 			float scale  = size / tile.Icon.width;
 			Raylib.DrawTextureEx(tile.Icon, new Vector2(Ui.Padding, y), 0f, scale, Color.WHITE); 
-			y += (Ui.Padding + size);
 
 			// Draw a small outline around the tile
-			// TODO: Figure out why only drawing once
-			// Raylib.DrawRectangleLinesEx(new Rectangle(Ui.Padding, y, size, size), 2f, Ui.WindowOutlineColor);
-			Raylib.DrawRectangleLinesEx(new Rectangle(Ui.Padding, y, size, size), 2f, Color.BLUE);
+			// Make it blue if its selected
+			Color color = (tile == SelectedTile) ? Color.BLUE : Ui.WindowOutlineColor;
+			Raylib.DrawRectangleLinesEx(new Rectangle(Ui.Padding, y, size, size), 2f, color);
+
+			// Increase the Y for drawing the next toolbar item
+			y += (Ui.Padding + size);
 		}
 	}
 }
