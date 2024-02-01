@@ -32,6 +32,7 @@ class MapEditor
 
 	private void Update()
 	{
+		Editor.Update();
 		Viewer.Update();
 	}
 
@@ -45,7 +46,9 @@ class MapEditor
 		Raylib.DrawGrid(10, 1);
 
 		Raylib.EndMode3D();
-		Raylib.DrawText("Hello wofld.", 10, 10, 30, Color.WHITE);
+		
+		Editor.Draw();
+
 		Raylib.EndDrawing();
 	}
 

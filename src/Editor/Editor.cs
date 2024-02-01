@@ -3,8 +3,13 @@ using Raylib_cs;
 
 class Editor
 {
+	// TODO: Combine in dictionary or something
 	private static List<Model> models;
+	private static string[] modelFiles;
+
 	private static List<PlacedModel> placedModels;
+
+	public static string command;
 
 	public static void Start()
 	{
@@ -26,11 +31,13 @@ class Editor
 
 	public static void Update()
 	{
-		
+		ListenForCommand();
 	}
 
+	// 3D
 	public static void Render()
 	{
+		// Draw all the models
 		foreach (PlacedModel model in placedModels)
 		{
 			// TODO: Add rotation
@@ -38,6 +45,54 @@ class Editor
 		}
 	}
 
+	// 2D
+	public static void Draw()
+	{
+		// Get all of the model indexes for spawning and stuff
+		string modelIndexes = "";
+		for (int i = 0; i < modelFiles.Length; i++)
+		{
+			modelIndexes += $"{i}\t{modelFiles[i]}\n";
+		}
+		Raylib.DrawText(modelIndexes, 100, 100, 30, Color.BEIGE);
+
+		// Draw the command thingy
+		Raylib.DrawText(command, 10, Raylib.GetScreenHeight() - 50, 40, Color.DARKBROWN);
+	}
+
+
+
+	private static void ListenForCommand()
+	{
+		// Add the key that was pressed, but ignore if its movement keys
+		// TODO: Copy blender movement
+		if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE)) command = "";
+		else if (Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER))
+		{
+			RunCommand();
+			command = "";
+		}
+		else if (!(Raylib.IsKeyDown(KeyboardKey.KEY_W) || Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_S) || Raylib.IsKeyDown(KeyboardKey.KEY_D)))
+		{
+			int keyboardInput = Raylib.GetCharPressed();
+			if (keyboardInput != 0) command += (char)keyboardInput;
+		}
+	}
+
+
+	private static void RunCommand()
+	{
+		Console.WriteLine("Running command " + command);
+
+		// Split up the command into different parts, like numbers and whatnot
+		// then perform the operations on the object
+
+		// a + "x" will spawn in modelIndex of x
+		// g + x/y/z + 00000... will move around last thing placed
+		// r + x/y/z + 00000... will rotate last thing placed
+		// del wil remove last thing placed
+
+	}
 
 
 	// TODO: Do textures also. Just give random color for now
@@ -45,7 +100,7 @@ class Editor
 	{
 		// Get all of the different .obj files in the map-assets directory
 		// TODO: Pull directly from the assets folder of an actual game
-		string[] modelFiles = Directory.GetFiles("./map-assets/models", "*.obj");
+		modelFiles = Directory.GetFiles("./map-assets/models", "*.obj");
 
 		// Load in the model
 		foreach (string modelPath in modelFiles)
