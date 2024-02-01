@@ -20,11 +20,13 @@ class MapEditor
 		}
 
 		// Cleanup
+		Editor.CleanUp();
 		Raylib.CloseWindow();
 	}
 
 	private void Start()
 	{
+		Editor.Start();
 		Viewer.Start();
 	}
 
@@ -39,7 +41,8 @@ class MapEditor
 		Raylib.ClearBackground(Color.MAGENTA);
 		Raylib.BeginMode3D(Viewer.Camera);
 
-		
+		Editor.Render();
+		Raylib.DrawGrid(10, 1);
 
 		Raylib.EndMode3D();
 		Raylib.DrawText("Hello wofld.", 10, 10, 30, Color.WHITE);
