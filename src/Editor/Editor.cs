@@ -82,10 +82,30 @@ class Editor
 
 	private static void RunCommand()
 	{
-		Console.WriteLine("Running command " + command);
-
 		// Split up the command into different parts, like numbers and whatnot
 		// then perform the operations on the object
+		command = command.Trim();
+
+		//! temp or something idk
+		// TODO: Use different system
+		if (command[0] == 'n') // New object
+		{
+			// Get the model index to add
+			int index = int.Parse(command.Remove(0, 1));
+			if (index > modelFiles.Length || index < 0)
+			{
+				Console.WriteLine("Not valid index");
+				return;
+			}
+
+			// Add a new model
+			placedModels.Add(new PlacedModel(models[index]));
+			Console.WriteLine("Added new model");
+
+			// TODO: Text on the side showing the model with the color text of the model or something idk
+		}
+
+
 
 		// a + "x" will spawn in modelIndex of x
 		// g + x/y/z + 00000... will move around last thing placed
