@@ -8,8 +8,10 @@ class Editor
 	private static string[] modelFiles;
 
 	private static List<PlacedModel> placedModels;
+	private static PlacedModel selectedModel;
+	private static Action currentAction;
+	private static string command;
 
-	public static string command;
 
 	public static void Start()
 	{
@@ -32,6 +34,7 @@ class Editor
 	public static void Update()
 	{
 		ListenForCommand();
+		PerformAction();
 	}
 
 	// 3D
@@ -61,7 +64,6 @@ class Editor
 	}
 
 
-
 	private static void ListenForCommand()
 	{
 		// Add the key that was pressed, but ignore if its movement keys
@@ -84,36 +86,81 @@ class Editor
 	{
 		// Split up the command into different parts, like numbers and whatnot
 		// then perform the operations on the object
-		command = command.Trim();
+		command = command.Trim().ToLower();
 
 		//! temp or something idk
 		// TODO: Use different system
+		// TODO: Use switch
 		if (command[0] == 'n') // New object
 		{
 			// Get the model index to add
 			int index = int.Parse(command.Remove(0, 1));
 			if (index > modelFiles.Length || index < 0)
 			{
-				Console.WriteLine("Not valid index");
+				Console.WriteLine("Not valid index (do better)");
 				return;
 			}
 
 			// Add a new model
-			placedModels.Add(new PlacedModel(models[index]));
-			Console.WriteLine("Added new model");
+			PlacedModel model = new PlacedModel(models[index]);
+			placedModels.Add(model);
+			selectedModel = model;
 
 			// TODO: Text on the side showing the model with the color text of the model or something idk
 		}
+		else if (command[0] == 'g') // Move
+		{
+			currentAction = Action.Move;
+		}
+		else if (command[0] == 'r') // Rotate
+		{
+			currentAction = Action.Rotate;
+		}
+		else if (command[0] == 'v') // Select placed item
+		{
+			int index = int.Parse(command.Remove(0, 1));
+			if (index > placedModels.Count || index < 0)
+			{
+				Console.WriteLine("Not valid index!!!");
+				return;
+			}
 
-
-
-		// a + "x" will spawn in modelIndex of x
-		// g + x/y/z + 00000... will move around last thing placed
-		// r + x/y/z + 00000... will rotate last thing placed
-		// del wil remove last thing placed
-
+			selectedModel = placedModels[index];
+			Console.WriteLine("SElected movdel.");
+		}
+		else if (command[0] == 'x') // Delete
+		{
+			// TODO: Make it so you can also just press the del or backspace button
+			placedModels.Remove(selectedModel);
+			selectedModel = placedModels.FirstOrDefault();
+		}
 	}
 
+
+	private static void PerformAction()
+	{
+		// Get keyboard input for the action
+		float x = 0, y = 0;
+		float speed = 10f;
+		if (Raylib.IsKeyDown(KeyboardKey.KEY_LEFT)) x -= (speed * Raylib.GetFrameTime());
+		if (Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT)) x += (speed * Raylib.GetFrameTime());
+		if (Raylib.IsKeyDown(KeyboardKey.KEY_UP)) y += (speed * Raylib.GetFrameTime());
+		if (Raylib.IsKeyDown(KeyboardKey.KEY_DOWN)) y -= (speed * Raylib.GetFrameTime());
+
+		// Check for what action we need to perform
+		switch (currentAction)
+		{
+			case Action.Move:
+				selectedModel.Position.X += x;
+				selectedModel.Position.Y += y;
+				break;
+
+			case Action.Rotate:
+				selectedModel.Rotation.X += x;
+				selectedModel.Rotation.Y += y;	
+				break;
+		}
+	}
 
 	// TODO: Do textures also. Just give random color for now
 	private static void LoadAssets()
@@ -158,4 +205,10 @@ struct PlacedModel
 		// Apply a random color
 		Color = new Color(Raylib.GetRandomValue(0, 255), Raylib.GetRandomValue(0, 255), Raylib.GetRandomValue(0, 255), 255);
 	}
+}
+
+enum Action
+{
+	Move,
+	Rotate
 }
