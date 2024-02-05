@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Numerics;
 using Raylib_cs;
 
@@ -8,7 +9,7 @@ class Editor
 	private static string[] modelFiles;
 
 	private static List<PlacedModel> placedModels;
-	private static PlacedModel selectedModel;
+	private static int selectedModelIndex;
 	private static Action currentAction;
 	private static string command;
 
@@ -44,7 +45,7 @@ class Editor
 		foreach (PlacedModel model in placedModels)
 		{
 			// TODO: Add rotation
-			Raylib.DrawModelEx(model.Model, model.Rotation, Vector3.Zero, 0f, model.Scale, model.Color);
+			Raylib.DrawModelEx(model.Model, model.Position, Vector3.Zero, 0f, model.Scale, model.Color);
 		}
 	}
 
@@ -69,7 +70,7 @@ class Editor
 		// Add the key that was pressed, but ignore if its movement keys
 		// TODO: Copy blender movement
 		if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE)) command = "";
-		else if (Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER))
+		else if (Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER) || Raylib.IsKeyPressed(KeyboardKey.KEY_KP_ENTER))
 		{
 			RunCommand();
 			command = "";
@@ -104,7 +105,7 @@ class Editor
 			// Add a new model
 			PlacedModel model = new PlacedModel(models[index]);
 			placedModels.Add(model);
-			selectedModel = model;
+			selectedModelIndex = index;
 
 			// TODO: Text on the side showing the model with the color text of the model or something idk
 		}
@@ -125,14 +126,14 @@ class Editor
 				return;
 			}
 
-			selectedModel = placedModels[index];
+			selectedModelIndex = index;
 			Console.WriteLine("SElected movdel.");
 		}
 		else if (command[0] == 'x') // Delete
 		{
 			// TODO: Make it so you can also just press the del or backspace button
-			placedModels.Remove(selectedModel);
-			selectedModel = placedModels.FirstOrDefault();
+			placedModels.Remove(placedModels[selectedModelIndex]);
+			selectedModelIndex = placedModels.Count;
 		}
 	}
 
@@ -141,25 +142,33 @@ class Editor
 	{
 		// Get keyboard input for the action
 		float x = 0, y = 0;
-		float speed = 10f;
-		if (Raylib.IsKeyDown(KeyboardKey.KEY_LEFT)) x -= (speed * Raylib.GetFrameTime());
-		if (Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT)) x += (speed * Raylib.GetFrameTime());
-		if (Raylib.IsKeyDown(KeyboardKey.KEY_UP)) y += (speed * Raylib.GetFrameTime());
-		if (Raylib.IsKeyDown(KeyboardKey.KEY_DOWN)) y -= (speed * Raylib.GetFrameTime());
+		float speed = 5f;
+		if (Raylib.IsKeyDown(KeyboardKey.KEY_LEFT)) x -= speed;
+		if (Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT)) x += speed;
+		if (Raylib.IsKeyDown(KeyboardKey.KEY_UP)) y -= speed;
+		if (Raylib.IsKeyDown(KeyboardKey.KEY_DOWN)) y += speed;
+
+		// Add delta time
+		x *= Raylib.GetFrameTime();
+		y *= Raylib.GetFrameTime();
 
 		// Check for what action we need to perform
+		PlacedModel placedModel = placedModels[selectedModelIndex];
 		switch (currentAction)
 		{
 			case Action.Move:
-				selectedModel.Position.X += x;
-				selectedModel.Position.Y += y;
+				placedModel.Position.X += x;
+				placedModel.Position.Z += y;
 				break;
 
 			case Action.Rotate:
-				selectedModel.Rotation.X += x;
-				selectedModel.Rotation.Y += y;	
+				placedModel.Rotation.X += x;
+				placedModel.Rotation.Z += y;
 				break;
 		}
+		placedModels[selectedModelIndex] = placedModel;
+
+		Debug.WriteLine($"{placedModels[selectedModelIndex].Position}\t{x}\t{y}");
 	}
 
 	// TODO: Do textures also. Just give random color for now
